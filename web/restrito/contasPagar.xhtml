@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <center>
+            <h:form style="width: 920px;text-align: left ">
+
+                <div class=" panel panel-primary" style="margin-top: 7%">
+                    <div class="panel-heading" style="text-align: center;font-size: 120%; font-weight: bold; 
+                         text-align: left">Contas a Pagar</div>
+                </div>
+
+
+                <div class="row" style="text-align: left; margin-top: 2%">
+                    <div class="col-lg-3">
+                        <p:outputLabel value="Tipo de Filtro:"/>
+                        <p:selectOneMenu effect="slide"  value="Cliente">
+                            <f:selectItem itemLabel="Cliente" itemValue="Cliente"/>
+                            <f:selectItem itemLabel="Código da Divída" itemValue="Codigo da Dívida"/>
+
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="col-lg-3">
+                        <p:outputLabel value="Conteúdo da Pesquisa:"/>
+                        <p:inputText placeholder="Pesquisa" style="width: 100%"/>
+                    </div>
+                    <div class="col-lg-3" style="width: 0%; margin-top: 2.6%;">
+                        <p:commandButton  value="Pesquisar" styleClass="btnMenu" />
+                    </div>
+                </div>
+                <br/>   
+
+
+
+                <div style="margin-top: 1%">
+                    <p:dataTable style="width: 100%;font-weight: bold;text-align: center" value="#{agendaMB.dividas.get(0)}" var="divida" emptyMessage="Não existe divídas para serem cobradas.">
+
+                        <p:column headerText="Valor da Divída" width="16%" style="color: black; font-weight: bold">
+                            <h:outputText value="#{divida.valor}" styleClass="fontInput">
+                                <f:convertNumber type="currency" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Cliente" width="16%" style="color: black; font-weight: bold">
+                            <h:outputText value="#{divida.devedor}" styleClass="fontInput"/>
+                        </p:column>
+
+                        <p:column headerText="Data do Pagamento" width="16%" style="color: black; font-weight: bold">
+                            <h:outputText value="#{divida.dataCadstro}" styleClass="fontInput">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Status" width="8%" style="color: black; font-weight: bold">
+                            <h:outputText value="Pendente" styleClass="fontInput"/>
+                        </p:column>
+
+                        <p:column headerText="Quitar" width="10%" style="color: black; font-weight: bold">
+                            <p:commandButton type="button"  style="width: 27%" icon="ui-icon-check"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+
+            </h:form>
+        </center>
+    </ui:define>        
+
+</ui:composition>

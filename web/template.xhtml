@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <title>SYSCOB</title>
+        <h:outputStylesheet library="css" name="bootstrap.css" />
+        <h:outputStylesheet library="awesome" name="css/font-awesome.css" />
+        
+        <script>
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Só Horas',
+                timeText: 'Tempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                ampm: false,
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo o Dia'
+            };
+        </script>
+        
+    </h:head>
+    
+     <h:body onload="javascript:document.getElementById('formLogin:txtUsername').focus();">
+         <p:dialog widgetVar="dialogAguarde" header="Aguarde" 
+                  modal="true" closable="false" draggable="false"
+                  resizable="false">
+            <div style="height: 100%;text-align: center;">
+                <h:graphicImage id="imgAjax" library="image" name="ajax-loader.gif" />                    
+            </div>
+        </p:dialog>
+         <p:ajaxStatus onstart="PF('dialogAguarde').show();" oncomplete="PF('dialogAguarde').hide();" />
+        <p:growl autoUpdate="true" showDetail="true" life="5000" />
+
+        <p:layout fullPage="true">
+            <!--
+            <p:layoutUnit position="north" size="130">
+                <ui:include src="/cabecalho.xhtml" />
+            </p:layoutUnit>
+            -->
+
+<!--            <p:layoutUnit position="west" size="225" rendered="#{autenticacaoMB.retornarUsuarioLogado() == null}">
+                <ui:include src="/login.xhtml" />
+            </p:layoutUnit>            -->
+
+<!--            <p:layoutUnit position="west" size="225" >
+                <ui:include src="/menu.xhtml" />
+            </p:layoutUnit>            -->
+
+            <p:layoutUnit position="center">
+                <div style="position: fixed;width: 98%; z-index: 999;margin-top: -4px">
+                <ui:include src="/menu.xhtml"/>
+                </div>
+                <div style="overflow-x: hidden;">
+                    <ui:insert name="content" />
+                </div>
+               
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" size="65">
+                <ui:include src="/rodape.xhtml" />
+            </p:layoutUnit>
+        </p:layout> 
+    </h:body>
+    
+</html>

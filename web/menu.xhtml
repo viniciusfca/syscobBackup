@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form>  
+        <p:growl id="messages"/>
+
+        <p:menubar >
+            
+            <p:menuitem value="Tela Inicial" url="/index.jsf" icon="fa fa-home" />
+            
+            <p:submenu  label="Cadastros" icon="fa fa-plus-circle" style="margin-left: 20px">
+                <p:menuitem value="Cliente"  url="/cadCliente.jsf" icon="fa fa-user"  />
+                <p:separator />
+                <p:menuitem value="Usuário" url="/restrito/cadFuncionario.jsf" icon="fa fa-user" />
+                <p:separator/>
+                <p:menuitem value="Dívída" url="/restrito/cadDivida.jsf" icon="fa fa-money"  />
+            </p:submenu>
+           
+            <p:menuitem value="Cobrança"   url="/restrito/divida.jsf" icon="fa fa-headphones" style="margin-left: 20px" />
+
+            <p:menuitem value="Contas a Receber" url="/restrito/contasReceber.jsf" icon="fa fa-money" style="margin-left: 20px" />    
+
+            <p:menuitem value="Contas a Pagar" url="/restrito/contasPagar.jsf" icon="fa fa-money" style="margin-left: 20px" />
+
+            <f:facet name="options" >
+                <p:outputLabel style="margin-top: 2%; margin-left: -2%" value="Vinicius de Souza Oliveira"/>
+                <p:commandButton style="margin-left: 2%" type="button"  icon="ui-icon-extlink" />
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+
+        <center>
+            <h:form id="formCadastro" style="width: 920px;text-align: left ">
+
+
+
+                <p:dialog hideEffect="blind" showEffect="blind" header="PESQUISAR CLIENTE" id="dtPessoa" widgetVar="dtPessoa" draggable="false" width="80%">
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <p:outputLabel value="Filtro:"/>
+                            <p:selectOneMenu effect="slide" value="#{PessoaMB.tipoConsulta}">
+                                <f:selectItem  itemLabel="Nome" itemValue="NOME"/>
+                                <f:selectItem itemLabel="CPF" itemValue="CPF"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="col-lg-4" style="width: 40%">
+                            <p:outputLabel value="Conteúdo:"/>
+                            <p:inputText maxlength="120" placeholder="Conteúdo da Pesquisa" value="#{PessoaMB.valorConsulta}" style="width: 100%;"/>
+                        </div>
+
+                        <div class="col-lg-4" style="width: 5%; margin-top: 2%;">
+
+                            <!-- Botão Pesquisar -->
+                            <p:commandButton style="height: 50%" icon="fa fa-search" value="Pesquisar" action="#{PessoaMB.consultarPessoas('C')}" styleClass="btnMenu" update ="dt"/>
+                        </div>
+
+                    </div>
+
+                    <p:dataTable id="dt" style="width: 100%;font-weight: lighter;margin-top: 1%"  value="#{PessoaMB.pessoas}" var="pessoaDT" emptyMessage="Nada encontrado!">
+
+                        <p:column headerText="Nome" style="font-weight: bold;color: black" width="20%" styleClass="textColumn">
+                            <h:outputText value="#{pessoaDT.nome}" styleClass="fontInput"/>
+                        </p:column>
+                        <p:column headerText="CPF" style="font-weight: bold;color: black" width="10%" styleClass="textColumn">
+                            <h:outputText value="#{pessoaDT.cpf}" styleClass="fontInput"/>
+                        </p:column>
+                        <p:column headerText="E-mail" style="font-weight: bold;color: black" width="20%" styleClass="textColumn">
+                            <h:outputText value="#{pessoaDT.email}" styleClass="fontInput"/>
+                        </p:column>
+                        <p:column headerText="Data do Cadastro" style="font-weight: bold;color: black" width="10%" styleClass="textColumn" >
+                            <h:outputText value="#{pessoaDT.dataCadastro}" styleClass="fontInput">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Alterar" width="5%" style="font-weight: bold;color: black" styleClass="textColumn">
+
+                            <!-- Clicar em Alterar Pessoa -->
+                            <center>
+                                <p:commandButton action="#{PessoaMB.setPessoa(pessoaDT)}" style="width: 30px;width: 30px" onclick="PF('dtPessoa').hide();" icon="ui-icon-check" update="formCadastro"/>
+                            </center>
+                        </p:column>
+                    </p:dataTable>
+                    <br/>
+                </p:dialog>
+
+                <div class="panel panel-primary" style="margin-top: 7%">
+                    <div class="panel-heading" style="font-weight: bold">Cadastro de Cliente</div>
+                    <div class="panel-body">
+
+                        <div class="row" style="text-align: left">
+                            <div class="col-lg-12">
+
+                                <!-- Incluir -->
+                                <p:commandButton disabled="#{PessoaMB.habilitarBotaoAlterar}" icon="ui-icon-plus" value="Incluir"  action="#{PessoaMB.inserirPessoa('C')}" styleClass="btnMenu" update="formCadastro"/>
+
+                                <!-- Alterar -->
+                                <p:commandButton disabled="#{!PessoaMB.habilitarBotaoAlterar}" icon="ui-icon-disk" value="Atualizar"  action="#{PessoaMB.atualizarPessoa()}" style="margin-left: 1%" styleClass="btnMenu" update="formCadastro"/>
+
+                                <!-- Limpar -->
+                                <p:commandButton icon="ui-icon-document" value="Limpar" style="margin-left: 1%" action="#{PessoaMB.limparTela()}" styleClass="btnMenu" update="formCadastro"/>
+
+                                <!-- Pesquisar -->
+                                <p:commandButton icon="ui-icon-search"  value="Pesquisar" style="margin-left: 1%" styleClass="btnMenu" onclick="PF('dtPessoa').show();"/>
+
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default" style="margin-top: 2%">
+                            <div class="panel-heading" style="font-weight: bold">Dados Pessoais</div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <h:outputLabel value="CPF:" style="display: block" styleClass="fontInput"/>
+                            <p:inputMask placeholder="Ex: 999.999.999-99" value="#{PessoaMB.pessoa.cpf}" mask="999.999.999-99" styleClass="fontInput" style="width: 100%">
+                                <p:ajax event="blur" listener="#{PessoaMB.buscarPessoaByCpf()}" update="formCadastro"/>
+                            </p:inputMask>
+                        </div>
+
+                        <div class="row" style="text-align: left">
+                            <div class="col-lg-3" >
+                                <h:outputLabel value="Nome:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="120" placeholder="Ex: Marcos Silva" value="#{PessoaMB.pessoa.nome}" styleClass="fontInput" style="width: 205px"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="RG:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="11" placeholder="Ex: 999999999" value="#{PessoaMB.pessoa.rg}" styleClass="fontInput" style="width: 100%"/>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-top: 1%">
+
+                            <div class="col-lg-3" style="margin-left: 14px" >
+                                <h:outputLabel value="Data Nascimento:" style="display: block;" styleClass="fontInput"/>
+                                <p:calendar mask="99/99/9999" effect="slide" maxdate="#{PessoaMB.valorMaximoDataNascimento}" placeholder="Ex: 01/01/1990" value="#{PessoaMB.pessoa.dataNascimento}" locale="pt" pattern="dd/MM/yyyy">
+                                </p:calendar>
+                            </div>
+
+                            <div class="col-lg-3" >
+                                <h:outputLabel value="Sexo:" style="display: block;  " styleClass="fontInput"/>
+                                <p:selectOneMenu effect="slide" value="#{PessoaMB.pessoa.sexo}">
+                                    <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                    <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                                </p:selectOneMenu>
+                            </div>
+
+                        </div>
+
+                        <div class="panel panel-default" style="margin-top: 2%">
+                            <div class="panel-heading" style="font-weight: bold">Dados de Endereço</div>
+                        </div>
+
+
+                        <div class="row" style="text-align: left; margin-top: 1%">
+
+                            <div class="col-lg-4">
+                                <h:outputLabel value="Endereço:" style="display: block; " styleClass="fontInput"/>
+                                <p:inputText  maxlength="150" placeholder="Ex: Avenida Brasil" value="#{PessoaMB.pessoa.endereco}" style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <h:outputLabel value="Número:" style="display: block" styleClass="fontInput"/>
+                                <p:inputMask mask="9?999999999" maxlength="12" slotChar=" " placeholder="Ex: 8052" value="#{PessoaMB.pessoa.numero}" style="width: 100%;" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <h:outputLabel value="Bairro:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="80" placeholder="Ex: Jardim Bueno" value="#{PessoaMB.pessoa.bairro}" style="width: 100%" styleClass="fontInput"/>
+                            </div>
+                        </div>
+
+                        <div class="row" style="text-align: left;margin-top: 1% ">
+
+                            <div class="col-lg-4">
+                                <h:outputLabel value="Complemento:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="50" placeholder="Ex: Apartamento 21" value="#{PessoaMB.pessoa.complemento}" style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <h:outputLabel value="Cidade:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="75" placeholder="Ex: São Paulo" value="#{PessoaMB.pessoa.cidade}" style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-4" >
+                                <h:outputLabel value="Estado:" style="display: block;" styleClass="fontInput"/>
+                                <p:selectOneMenu effect="slide" value="#{PessoaMB.pessoa.uf}">
+                                    <f:selectItem itemLabel="Acre" itemValue="AC"/>
+                                    <f:selectItem itemLabel="Alagoas" itemValue="AL"/>
+                                    <f:selectItem itemLabel="Amapá" itemValue="AP"/>
+                                    <f:selectItem itemLabel="Amazonas" itemValue="AM"/>
+                                    <f:selectItem itemLabel="Bahia" itemValue="BA"/>
+                                    <f:selectItem itemLabel="Ceará" itemValue="CE"/>
+                                    <f:selectItem itemLabel="Distrito Federal" itemValue="DF"/>
+                                    <f:selectItem itemLabel="Espírito Santo" itemValue="ES"/>
+                                    <f:selectItem itemLabel="Goiás" itemValue="GO"/>
+                                    <f:selectItem itemLabel="Maranhão" itemValue="MA"/>
+                                    <f:selectItem itemLabel="Mato Grosso" itemValue="MT"/>
+                                    <f:selectItem itemLabel="Mato Grosso do Sul" itemValue="MS"/>
+                                    <f:selectItem itemLabel="Minas Gerais" itemValue="MG"/>
+                                    <f:selectItem itemLabel="Pará" itemValue="PA"/>
+                                    <f:selectItem itemLabel="Paraíba" itemValue="PB"/>
+                                    <f:selectItem itemLabel="Paraná" itemValue="PR"/>
+                                    <f:selectItem itemLabel="Pernambuco" itemValue="PE"/>
+                                    <f:selectItem itemLabel="Piauí" itemValue="PI"/>
+                                    <f:selectItem itemLabel="Rio de Janeiro" itemValue="RJ"/>
+                                    <f:selectItem itemLabel="Rio Grande do Norte" itemValue="RN"/>
+                                    <f:selectItem itemLabel="Rio Grande do Sul" itemValue="RS"/>
+                                    <f:selectItem itemLabel="Rondônia" itemValue="RO"/>
+                                    <f:selectItem itemLabel="Roraima" itemValue="RR"/>
+                                    <f:selectItem itemLabel="Santa Catarina" itemValue="SC"/>
+                                    <f:selectItem itemLabel="São Paulo" itemValue="SP"/>
+                                    <f:selectItem itemLabel="Sergipe" itemValue="SE"/>
+                                    <f:selectItem itemLabel="Tocantins" itemValue="TO"/>
+                                </p:selectOneMenu>
+                            </div>
+
+                        </div>
+
+                        <div class="panel panel-default" style="margin-top: 2%">
+                            <div class="panel-heading" style="font-weight: bold">Dados de Acesso</div>
+                        </div>
+
+                        <div class="row" style="text-align: left;margin-top: 1%">
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Telefone:" style="display: block" styleClass="fontInput"/>
+                                <p:inputMask placeholder="Ex: (99) 9999-9999" value="#{PessoaMB.pessoa.telefone}" mask="(99) 9999-9999"  style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Celular:" style="display: block" styleClass="fontInput"/>
+                                <p:inputMask placeholder="Ex: (99) 99999-9999" mask="(99) 99999-9999" value="#{PessoaMB.pessoa.celular}"  style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="E-mail:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="75" placeholder="Ex: exemplo@exemplo.com.br" value="#{PessoaMB.pessoa.email}" style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Confirmar E-mail:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="75" value="#{PessoaMB.confirmarEmail}" placeholder="Ex: exemplo@exemplo.com.br" style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="text-align: left; margin-top: 1%">
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Usuário:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="25" value="#{PessoaMB.pessoa.username}"   style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Senha:" style="display: block" styleClass="fontInput"/>
+                                <p:password maxlength="30" value="#{PessoaMB.pessoa.senha}" style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Confirmar Senha:" style="display: block" styleClass="fontInput"/>
+                                <p:password maxlength="30" value="#{PessoaMB.confirmarSenha}" style="width: 100%" styleClass="fontInput"/>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </h:form>
+        </center>
+    </ui:define>        
+
+</ui:composition>

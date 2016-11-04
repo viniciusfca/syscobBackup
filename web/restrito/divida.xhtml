@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <center>
+        <h:form style="width: 920px;text-align: left ">
+
+
+            <!--            <p:dialog header="Adicionar Atendimento" id="dtHistorico" widgetVar="dtHistorico" visible="true"  width="80%">
+                            <p:panel>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <p:outputLabel value="Status"/>
+                                        <p:selectOneMenu>
+                                            <f:selectItem itemLabel="A Negociar"/>
+                                            <f:selectItem itemLabel="Boleto Gerado"/>
+                                            <f:selectItem itemLabel="Finalizado"/>
+                                            <f:selectItem itemLabel="A Negociar"/>
+                                        </p:selectOneMenu>
+                                    </div>
+            
+                                    <div class="col-lg-3" style="width: 100%">
+                                        <p:outputLabel value="Observação"/>
+                                        <p:inputTextarea style="width: 100%" placeholder="Observação do atendimento"/>
+                                    </div>
+            
+                                    <div class="col-lg-3">
+                                        <p:commandButton value="Salvar"/>
+                                    </div>
+            
+                                    <div class="col-lg-3">
+                                        <p:commandButton style="margin-left: -80%" value="Gerar Boleto"/>
+            
+                                    </div>
+            
+                                </div>
+            
+            
+            
+                            </p:panel>
+                        </p:dialog>-->
+
+
+            <p:dialog header="PESQUISAR DÍVIDA" id="dtDivida" widgetVar="dtDivida" hideEffect="blind" showEffect="blind" modal="true" appendTo="@(body)" draggable="false" resizable="false"  width="80%">
+                        
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <p:outputLabel value="Filtro:"/>
+                                                <p:selectOneMenu effect="slide" value="CPF">
+                                                    <f:selectItem itemLabel="CPF Devedor" itemValue="CPF"/>
+                                                    <f:selectItem itemLabel="Código da Dívida" itemValue="Codigo"/>
+                                                    <f:selectItem itemLabel="Valor da Dívida" itemValue="Valor"/>
+                                                    <f:selectItem itemLabel="Nome do Devedor" itemValue="Nome"/>
+                                                </p:selectOneMenu>
+                                            </div>
+                        
+                                            <div class="col-lg-4" style="width: 40%">
+                                                <p:inputText  placeholder="Conteúdo da Pesquisa" style="width: 100%; margin-top: 4.5%"/>
+                                            </div>
+                        
+                                            <div class="col-lg-4" style="width: 5%; margin-top: 2%;">
+                                                <p:commandButton style="height: 50%" icon="fa fa-search"/>
+                                            </div>
+                        
+                                        </div>
+                        
+                                        <p:dataTable style="width: 100%;font-weight: bold; text-align: center; margin-top: 1%" value="#{agendaMB.dividas}" var="divida" emptyMessage="Não existe divídas para serem cobradas.">
+                                            <!--<p:column headerText="id" width="5%" style="font-weight: bold;color: black">
+                                                <h:outputText value="#{divida.id}" styleClass="fontInput"/>
+                                            </p:column>-->
+                                            <p:column headerText="Valor da Dívída"  style="font-weight: bold;color: black">
+                                                <h:outputText value="#{divida.valor}" styleClass="fontInput">
+                                                    <f:convertNumber type="currency" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Devedor"  style="font-weight: bold;color: black">
+                                                <h:outputText value="#{divida.devedor}" styleClass="fontInput"/>
+                                            </p:column>
+                                            <p:column headerText="Data do Cadastro" style="font-weight: bold;color: black">
+                                                <h:outputText value="#{divida.dataCadstro}" styleClass="fontInput">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Data da Última Cobrança"  style="font-weight: bold;color: black">
+                                                <h:outputText value="#{divida.dataCadstro}" styleClass="fontInput">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Status"  style="font-weight: bold;color: black">
+                                                <h:outputText value="#{divida.status}" styleClass="fontInput"/>
+                                            </p:column>
+                                            <p:column headerText="Procedimento" style="font-weight: bold;color: black" >
+                                                <h:outputText value="#{divida.procedimento}" styleClass="fontInput"/>
+                                            </p:column>
+                                            <p:column width="5%">
+                        
+                                                <p:commandButton type="button"  style="width: 80%" icon="ui-icon-check"/>
+                        
+                                            </p:column>
+                                        </p:dataTable>
+                        
+                        
+                                    </p:dialog>
+
+
+            <div class=" panel panel-primary" style="margin-top: 7%">
+                <div class="panel-heading"  style="text-align: center;font-size: 120%; font-weight: bold;
+                     text-align: left">Cobrança</div>
+            </div>
+            
+            
+              <div class="row" style="text-align: left">
+                        <div class="col-lg-6">
+                            <p:commandButton  icon="ui-icon-search" type="button" value="Pesquisar" style="margin-left: 1%" styleClass="btnMenu" onclick="PF('dtDivida').show();"/>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default" style="margin-top: 1%">
+                        <div class="panel-heading" style="font-weight: bold">Dados da Dívida</div>
+                        <div class="panel-body">
+
+                    <div style="margin-top: 0%">
+                        <div class="row" style="text-align: left">
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Cliente:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText value="Fulano de Tal" styleClass="fontInput" readonly="true" style="width: 100%"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Devedor:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText value="#{agendaMB.divida.devedor}" styleClass="fontInput" readonly="true" style="width: 100%"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="CPF:" style="display: block" styleClass="fontInput"/>
+
+                                <p:inputText value="#{agendaMB.divida.CPF}"  styleClass="fontInput" style="width: 100%"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="RG:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText value="#{agendaMB.divida.rg}" styleClass="fontInput" maxlength="9" style="width: 100%"/>
+                            </div>
+                        </div>
+
+                        <div class="row" style="text-align: left; margin-top: 1%">
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Celular:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText value="#{agendaMB.divida.celular}" styleClass="fontInput" readonly="true" style="width: 100%"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Telefone:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText value="#{agendaMB.divida.telefone}"  styleClass="fontInput" style="width: 100%"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="E-mail:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText value="jose@jose.com.br"  styleClass="fontInput" style="width: 100%"/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <h:outputLabel value="Valor Divída:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText value="#{agendaMB.divida.valor}" styleClass="fontInput" maxlength="9" style="width: 100%">
+                                    <f:convertNumber type="currency"></f:convertNumber>
+                                </p:inputText>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="panel panel-default" style="margin-top: 2%">
+                        <div class="panel-heading" style="font-weight: bold">Histórico</div>
+                    </div>
+                            <div class="row" style="text-align: left; ">
+                                <div class="col-lg-3" styleClass="fontInput">
+                                    <p:outputLabel styleClass="fontInput" value="Status:" style="display: block"/>
+                                    <p:selectOneMenu effect="slide" value="Aguardando Pagamento">
+                                        <f:selectItem itemLabel="Aguardando Pagamento" itemValue="Aguardando Pagamento"/>
+                                        <f:selectItem itemLabel="Em Negociação" itemValue="Em Negociação"/>
+                                        <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>
+                                    </p:selectOneMenu>
+                                </div>
+
+                                <div class="col-lg-3" >
+                                    <p:outputLabel styleClass="fontInput" value="Gerar Boleto:" style="display: block"/>
+                                    <p:selectOneMenu effect="slide" value="S">
+                                        <f:selectItem itemLabel="Sim" itemValue="S"/>
+                                        <f:selectItem itemLabel="Não" itemValue="N"/>
+
+                                    </p:selectOneMenu>
+                                </div>
+
+                                <div class="col-lg-3" >
+                                    <p:outputLabel styleClass="fontInput" value="Número de parcelas:" style="display: block"/>
+                                    <p:selectOneMenu  effect="slide" value="1p">
+                                        <f:selectItem itemLabel="1x Parcela" itemValue="1p" />
+                                        <f:selectItem itemLabel="2x Parcelas" itemValue="2p"/>
+                                        <f:selectItem itemLabel="3x Parcelas" itemValue="3p"/>
+                                    </p:selectOneMenu>
+                                </div>
+
+
+                                <div class="col-lg-3" >
+                                    <p:outputLabel  styleClass="fontInput" value="Desconto:" style="display: block"/>
+                                    <p:inputText id="grow" />
+                                                         <p:tooltip id="toolTipGrow" for="grow" value="Atenção: Conceder desconto em percentual"
+               showEffect="clip" hideEffect="explode" />
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="text-align: left; margin-top: 1%">
+                                <div class="col-lg-6" styleClass="fontInput">
+                                    <p:outputLabel value="Observação:" style="display: block" styleClass="fontInput"/>
+                                    <p:inputTextarea placeholder="Observação do atendimento" style="width: 100%"/>
+                                </div>
+                            </div>
+
+                            <div class="row" style="text-align: left; margin-top: 1%">
+                                <div class="col-lg-1" >
+                                    <p:commandButton styleClass="btnMenu" value="Adicionar" style="margin-top: 5px" />
+                                </div>
+                            </div>
+                            
+                            <div class="panel panel-default" style="margin-top: 2%">
+                                <div class="panel-heading" style="font-weight: bold">Histórico de Atendimento</div>
+                            </div>
+
+                            <div style="margin-top: 1%">
+                                <p:dataTable style="width:100%;text-align: center"  value="#{agendaMB.dividas.get(0)}" var="divida" emptyMessage="Não existe dívídas para serem cobradas.">
+
+                                    <p:column style="color: black; font-weight: bold" headerText="Valor" styleClass="fontInput" >
+                                        <h:outputText value="#{divida.valor}" styleClass="fontInput">
+                                            <f:convertNumber type="currency" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column style="color: black; font-weight: bold; width: 80px" headerText="Atendente" styleClass="fontInput" >
+                                        <h:outputText value="#{divida.devedor}" styleClass="fontInput"/>
+                                    </p:column>
+                                    <p:column  style="color: black; font-weight: bold" headerText="Cadastro" styleClass="fontInput" >
+                                        <h:outputText value="#{divida.dataCadstro}" styleClass="fontInput">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column style="color: black; font-weight: bold" headerText="Última Cobrança" styleClass="fontInput" >
+                                        <h:outputText value="#{divida.dataCadstro}" styleClass="fontInput">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column style="color: black; font-weight: bold" headerText="Status" styleClass="fontInput" >
+                                        <h:outputText value="Negociando"   styleClass="fontInput"/>
+                                    </p:column>
+                                    <p:column style="color: black; font-weight: bold; width: 120px" headerText="Procedimento" >
+                                        <h:outputText value="#{divida.procedimento}" styleClass="fontInput"/>
+                                    </p:column>
+                                    <p:column style="color: black; font-weight: bold; width: 300px" headerText="Observação"  styleClass="fontInput" >
+                                        <h:outputText style="text-align: left" value="O contato foi efetuado e o cliente pediu para entrar em contato fora do horário comercial, sendo assim a ligação foi reagendada para uma nova negociação." styleClass="fontInput"/>
+                                    </p:column>
+                                    <p:column style="color: black; font-weight: bold" headerText="Visualizar Boleto" styleClass="fontInput" >
+                                        <p:commandButton type="button"  disabled="true" style="width: 27%" icon="ui-icon-check"/>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </div>
+
+                       </div>
+                    </div>
+
+             
+
+        </h:form>
+        </center>
+    </ui:define>        
+
+</ui:composition>
