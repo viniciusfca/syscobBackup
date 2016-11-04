@@ -8,7 +8,7 @@ package br.com.cobranca.dao;
 import br.com.cobranca.entity.Divida;
 import br.com.cobranca.entity.Historico;
 import br.com.cobranca.entity.Pessoa;
-import br.com.cobranca.util.Conexao;
+import br.com.cobranca.util.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -38,7 +38,7 @@ public class HistoricoDAO {
         try {
             ps = conexao.conectar().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, historico.getDivida().getId());
-            ps.setInt(2, historico.getPessoa().getId());
+            ps.setInt(2, Util.getUsuarioLogado().getId());
             ps.setString(3, historico.getObservacao());
             ps.setDate(4, new java.sql.Date(new Date().getTime()));
             ps.setInt(5, 0);

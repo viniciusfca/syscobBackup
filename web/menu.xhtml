@@ -10,47 +10,54 @@
     <h:form>  
         <p:growl id="messages"/>
 
+        <div class="row" style="margin-left: 900px">
+            <div class="col-lg-3" style="margin-left: -250px">
+                <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Usuário:" style="font-weight: bold" styleClass="fontInput"/>
+                <p:inputText rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.username}"/>
+            </div>
+
+            <div class="col-lg-3" style="margin-left: -30px">
+                <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Senha:" style="font-weight: bold" styleClass="fontInput"/>
+                <p:password rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.senha}"/>
+            </div>
+
+            <div class="col-lg-3">
+                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() == null}" action="#{LoginMB.doLogin()}"  style="margin-left: 120px;width: 150px; height: 30px; margin-top: 25px" value="Logar"/>
+            </div>
+        </div>
         <p:menubar >
-            
+
             <p:menuitem value="Tela Inicial" url="/index.jsf" icon="fa fa-home" />
-            
+
             <p:submenu  label="Cadastros" icon="fa fa-plus-circle" style="margin-left: 20px">
                 <p:menuitem value="Cliente"  url="/cadCliente.jsf" icon="fa fa-user"  />
                 <p:separator />
-                <p:menuitem value="Usuário" url="/restrito/cadFuncionario.jsf" icon="fa fa-user" />
+                <p:menuitem value="Usuário" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/cadFuncionario.jsf" icon="fa fa-user" />
                 <p:separator/>
                 <p:menuitem value="Dívída" url="/restrito/cadDivida.jsf" icon="fa fa-money"  />
             </p:submenu>
-           
-            <p:menuitem value="Cobrança"   url="/restrito/divida.jsf" icon="fa fa-headphones" style="margin-left: 20px" />
 
-            <p:menuitem value="Contas a Receber" url="/restrito/contasReceber.jsf" icon="fa fa-money" style="margin-left: 20px" />    
+            <p:submenu label="Cobranças" icon="fa fa-headphones" style="margin-left: 20px">
+                <p:menuitem value="Cobrança"  rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/divida.jsf" icon="fa fa-headphones" style="margin-left: 20px" />
+                <p:separator />
+                <p:menuitem value="Agenda"  rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/cobranca.jsf" icon="fa fa-headphones" style="margin-left: 20px" />
+            </p:submenu>
+            
 
-            <p:menuitem value="Contas a Pagar" url="/restrito/contasPagar.jsf" icon="fa fa-money" style="margin-left: 20px" />
+            <p:menuitem value="Contas a Receber" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/contasReceber.jsf" icon="fa fa-money" style="margin-left: 20px" />    
+
+            <p:menuitem value="Contas a Pagar" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/contasPagar.jsf" icon="fa fa-money" style="margin-left: 20px" />
 
             <f:facet name="options" >
                 <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() != null}" style="margin-top: 2%; margin-left: -2%" value="#{LoginMB.retornarUsuarioLogado().nome}"/>
-                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() != null}" style="margin-left: 2%" action="#{LoginMB.doLogout()}"  icon="ui-icon-extlink" />
-            
-                <div class="row">
-                    <div class="col-lg-3">
-                        <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Usuário:" styleClass="fontInput"/>
-                        <p:inputText rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.username}"/>
-                    </div>
-                    
-                    <div class="col-lg-3">
-                        <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Senha:" styleClass="fontInput"/>
-                        <p:password rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.senha}"/>
-                    </div>
-                    
-                    <div class="col-lg-3">
-                        <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() == null}" action="#{LoginMB.doLogin('U')}" value="Logar"/>
-                    </div>
-                </div>
-                
-            
+                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() != null}" style="margin-left: 2%" action="#{LoginMB.doLogout()}"  icon="ui-icon-extlink" />    
+
             </f:facet>
+
         </p:menubar>
+
+
+
     </h:form>
 
 </ui:composition>
