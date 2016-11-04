@@ -192,11 +192,11 @@ public class PessoaDAO {
       * @param cpf
       * @return 
       */
-     public Pessoa getByCpf(String cpf){
+     public Pessoa getByCpf(String cpf, String tipo){
          Conexao conexao = new Conexao();
          Pessoa pessoa = new Pessoa();
          
-         String sql = "SELECT * FROM PESSOA WHERE cpf = '"+cpf+"'";
+         String sql = "SELECT * FROM PESSOA WHERE tipo = '"+tipo+"' AND cpf = '"+cpf+"'";
          
          PreparedStatement ps;
          
@@ -227,6 +227,43 @@ public class PessoaDAO {
              }
              
          }catch(Exception e){
+             System.out.println("Erro: "+ e);
+         }finally{
+             conexao.desconectar();
+         }
+         
+         return pessoa;
+     }
+     /**
+      * Metodo que retorno pessoa pelo login e senha
+      * @param username
+      * @param password
+      * @param tipo 
+     * @return  
+      */
+     public Pessoa pessoaLogin(String username, String password){
+         Conexao conexao = new Conexao();
+         Pessoa pessoa = new Pessoa();
+         PreparedStatement ps;
+         
+         String sql = "SELECT id,nome,email,tipo FROM pessoa WHERE username = ? and senha = ?";
+         
+         try{
+             ps = conexao.conectar().prepareStatement(sql);
+             ps.setString(1, username);
+             ps.setString(2, password);
+             
+             
+             ResultSet rs = ps.executeQuery();
+             
+             if(rs.next()){
+                 pessoa.setId(rs.getInt("id"));
+                 pessoa.setNome(rs.getString("nome"));
+                 pessoa.setEmail(rs.getString("email"));
+                 pessoa.setTipo(rs.getString("tipo"));
+             }
+             
+         }catch(Exception e ){
              System.out.println("Erro: "+ e);
          }finally{
              conexao.desconectar();

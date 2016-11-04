@@ -13,7 +13,7 @@
         <center>
             <h:form id="formCadastro" style="width: 920px;text-align: left ">
 
-                
+
 
                 <p:dialog hideEffect="blind" showEffect="blind" header="PESQUISAR USUÁRIO" id="dtPessoa" widgetVar="dtPessoa" draggable="false" width="80%">
 
@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="col-lg-4" style="width: 5%; margin-top: 2%;">
-                            
+
                             <!-- Botão Pesquisar -->
                             <p:commandButton style="height: 50%" icon="fa fa-search" value="Pesquisar" action="#{PessoaMB.consultarPessoas('U')}" styleClass="btnMenu" update ="dt"/>
                         </div>
@@ -93,14 +93,16 @@
                         </div>
 
                         <div class="row" style="text-align: left">
-                            <div class="col-lg-3" >
-                                <h:outputLabel value="Nome:" style="display: block" styleClass="fontInput"/>
-                                <p:inputText maxlength="120" placeholder="Ex: Marcos Silva" value="#{PessoaMB.pessoa.nome}" styleClass="fontInput" style="width: 205px"/>
-                            </div>
 
                             <div class="col-lg-3">
                                 <h:outputLabel value="CPF:" style="display: block" styleClass="fontInput"/>
-                                <p:inputMask placeholder="Ex: 999.999.999-99" value="#{PessoaMB.pessoa.cpf}" mask="999.999.999-99" styleClass="fontInput" style="width: 100%"/>
+                                <p:inputMask placeholder="Ex: 999.999.999-99" value="#{PessoaMB.pessoa.cpf}" mask="999.999.999-99" styleClass="fontInput" style="width: 100%">
+                                    <p:ajax event="blur" listener="#{PessoaMB.buscarPessoaByCpf('U')}" update="formCadastro"/>
+                                </p:inputMask>
+                            </div>
+                            <div class="col-lg-3" >
+                                <h:outputLabel value="Nome:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText maxlength="120" placeholder="Ex: Marcos Silva" value="#{PessoaMB.pessoa.nome}" styleClass="fontInput" style="width: 205px"/>
                             </div>
 
                             <div class="col-lg-3">

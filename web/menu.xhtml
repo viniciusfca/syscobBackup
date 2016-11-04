@@ -29,8 +29,26 @@
             <p:menuitem value="Contas a Pagar" url="/restrito/contasPagar.jsf" icon="fa fa-money" style="margin-left: 20px" />
 
             <f:facet name="options" >
-                <p:outputLabel style="margin-top: 2%; margin-left: -2%" value="Vinicius de Souza Oliveira"/>
-                <p:commandButton style="margin-left: 2%" type="button"  icon="ui-icon-extlink" />
+                <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() != null}" style="margin-top: 2%; margin-left: -2%" value="#{LoginMB.retornarUsuarioLogado().nome}"/>
+                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() != null}" style="margin-left: 2%" action="#{LoginMB.doLogout()}"  icon="ui-icon-extlink" />
+            
+                <div class="row">
+                    <div class="col-lg-3">
+                        <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Usuário:" styleClass="fontInput"/>
+                        <p:inputText rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.username}"/>
+                    </div>
+                    
+                    <div class="col-lg-3">
+                        <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Senha:" styleClass="fontInput"/>
+                        <p:password rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.senha}"/>
+                    </div>
+                    
+                    <div class="col-lg-3">
+                        <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() == null}" action="#{LoginMB.doLogin('U')}" value="Logar"/>
+                    </div>
+                </div>
+                
+            
             </f:facet>
         </p:menubar>
     </h:form>

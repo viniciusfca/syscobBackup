@@ -5,6 +5,8 @@
  */
 package br.com.cobranca.util;
 
+import br.com.cobranca.entity.Pessoa;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -16,7 +18,9 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 public class Util {
 
@@ -647,4 +651,46 @@ public class Util {
         }
     }
 
+     /**
+     * Metodo que coloca o usuario na sessao
+     * @param usuario 
+     */
+    public static void colocarUsuarioSessao(Pessoa pessoa){
+        HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        ses.setAttribute("usuarioLogado", pessoa);            
+    }
+    
+    
+
+    /**
+     * Metodo que remove usuario da sessao
+     */
+    public static void retirarUsuarioSessao(){
+        HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        ses.invalidate();
+    }
+    
+     /**
+     * Metodo que redireciona pagina
+     * @param url 
+     */
+    public static void redirecionar(String url){
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {        
+            ec.redirect(url);
+        } catch (IOException ex) {
+            mostrarMensagemErro("Informação", ex.getMessage());
+        }
+    }
+    
+    
+    
+    /**
+     * Metodo que retorna o usuario logado
+     * @return 
+     */
+    public static Pessoa getUsuarioLogado(){
+        return (Pessoa) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuarioLogado");
+    }
+    
 }

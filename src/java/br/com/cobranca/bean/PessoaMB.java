@@ -61,11 +61,12 @@ public class PessoaMB {
     
      /**
      * Metodo que retorna devedor pelo cpf
+     * @param tipo
      */
-    public void buscarPessoaByCpf() {
+    public void buscarPessoaByCpf(String tipo) {
 
         if (Util.isCPF(pessoa.getCpf())) {
-            pessoa = dao.getByCpf(pessoa.getCpf());
+            pessoa = dao.getByCpf(pessoa.getCpf(), tipo);
 
             if (pessoa.getId() > 0) {
                 Util.mostrarMensagemSucesso("Informação", "Pessoa já cadastrado");

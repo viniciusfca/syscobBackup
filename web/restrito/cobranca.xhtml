@@ -22,7 +22,7 @@
                     <div class="panel-heading" style="font-weight: bold">Cobranças do Dia</div>
                 </div>
 
-                <p:dataTable style="width: 100%;text-align: center; " value="#{CobrancaMB.dividas}" var="divida" emptyMessage="Não existe divídas para serem cobradas.">
+                <p:dataTable style="width: 100%;text-align: center; " value="#{CobrancaMB.dividas}" var="divida" emptyMessage="Não há divídas agendadas para cobrança hoje.">
                     <p:column style="color: black; font-weight: bold" headerText="id" width="5%" >
                         <h:outputText value="#{divida.id}" styleClass="fontInput"/>
                     </p:column>
@@ -133,14 +133,14 @@
                                 </p:selectOneMenu>
                             </div>
 
-                            <div class="col-lg-3" >
+<!--                            <div class="col-lg-3" >
                                 <p:outputLabel styleClass="fontInput" value="Número de parcelas:" style="display: block"/>
                                 <p:selectOneMenu value="#{CobrancaMB.parcela}" effect="slide">
                                     <f:selectItem itemLabel="1x Parcela" itemValue="1"/>
                                     <f:selectItem itemLabel="2x Parcelas" itemValue="2"/>
                                     <f:selectItem itemLabel="3x Parcelas" itemValue="3"/>
                                 </p:selectOneMenu>
-                            </div>
+                            </div>-->
 
 
                             <div class="col-lg-3" >

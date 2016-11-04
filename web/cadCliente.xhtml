@@ -95,7 +95,7 @@
                         <div class="col-lg-3">
                             <h:outputLabel value="CPF:" style="display: block" styleClass="fontInput"/>
                             <p:inputMask placeholder="Ex: 999.999.999-99" value="#{PessoaMB.pessoa.cpf}" mask="999.999.999-99" styleClass="fontInput" style="width: 100%">
-                                <p:ajax event="blur" listener="#{PessoaMB.buscarPessoaByCpf()}" update="formCadastro"/>
+                                <p:ajax event="blur" listener="#{PessoaMB.buscarPessoaByCpf('C')}" update="formCadastro"/>
                             </p:inputMask>
                         </div>
 
