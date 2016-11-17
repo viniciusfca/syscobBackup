@@ -11,6 +11,11 @@
 
     <ui:define name="content">
         <center>
+
+            <p:dialog id="dlg" widgetVar="dlgBoleto" header="Boleto" width="800" height="600" closable="true" draggable="false" resizable="false" styleClass="textNormal">
+                <p:media id="mediaPDF" player="pdf" value="/resources/boletos/boleto.pdf" height="600" width="800" />                
+            </p:dialog>
+
             <h:form id="formCadastro" style="width: 920px;text-align: left ">
 
                 <div class=" panel panel-primary" style="margin-top: 7%">
@@ -133,19 +138,19 @@
                                 </p:selectOneMenu>
                             </div>
 
-<!--                            <div class="col-lg-3" >
-                                <p:outputLabel styleClass="fontInput" value="Número de parcelas:" style="display: block"/>
-                                <p:selectOneMenu value="#{CobrancaMB.parcela}" effect="slide">
-                                    <f:selectItem itemLabel="1x Parcela" itemValue="1"/>
-                                    <f:selectItem itemLabel="2x Parcelas" itemValue="2"/>
-                                    <f:selectItem itemLabel="3x Parcelas" itemValue="3"/>
-                                </p:selectOneMenu>
-                            </div>-->
+                            <!--                            <div class="col-lg-3" >
+                                                            <p:outputLabel styleClass="fontInput" value="Número de parcelas:" style="display: block"/>
+                                                            <p:selectOneMenu value="#{CobrancaMB.parcela}" effect="slide">
+                                                                <f:selectItem itemLabel="1x Parcela" itemValue="1"/>
+                                                                <f:selectItem itemLabel="2x Parcelas" itemValue="2"/>
+                                                                <f:selectItem itemLabel="3x Parcelas" itemValue="3"/>
+                                                            </p:selectOneMenu>
+                                                        </div>-->
 
 
                             <div class="col-lg-3" >
                                 <p:outputLabel styleClass="fontInput" value="Desconto:" style="display: block"/>
-                                <p:inputText value="#{CobrancaMB.desconto}" id="grow" />
+                                <p:inputNumber value="#{CobrancaMB.desconto}" id="grow" />
                                 <p:tooltip id="toolTipGrow" for="grow" value="Atenção: Conceder desconto em percentual"
                                            showEffect="clip" hideEffect="explode" />
                             </div>

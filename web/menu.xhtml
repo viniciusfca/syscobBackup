@@ -9,22 +9,7 @@
 
     <h:form>  
         <p:growl id="messages"/>
-
-        <div class="row" style="margin-left: 900px">
-            <div class="col-lg-3" style="margin-left: -250px">
-                <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Usuário:" style="font-weight: bold" styleClass="fontInput"/>
-                <p:inputText rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.username}"/>
-            </div>
-
-            <div class="col-lg-3" style="margin-left: -30px">
-                <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Senha:" style="font-weight: bold" styleClass="fontInput"/>
-                <p:password rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.senha}"/>
-            </div>
-
-            <div class="col-lg-3">
-                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() == null}" action="#{LoginMB.doLogin()}"  style="margin-left: 120px;width: 150px; height: 30px; margin-top: 25px" value="Logar"/>
-            </div>
-        </div>
+        
         <p:menubar >
 
             <p:menuitem value="Tela Inicial" url="/index.jsf" icon="fa fa-home" />
@@ -55,9 +40,24 @@
             </f:facet>
 
         </p:menubar>
+        
+        
+        <div class="row" style="margin-left: 900px">
+            <div class="col-lg-3" style="margin-left: -250px">
+                <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Usuário:" style="font-weight: bold" styleClass="fontInput"/>
+                <p:inputText rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.username}"/>
+            </div>
 
+            <div class="col-lg-3" style="margin-left: -30px">
+                <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Senha:" style="font-weight: bold" styleClass="fontInput"/>
+                <p:password rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.senha}"/>
+            </div>
 
-
+            <div class="col-lg-3">
+                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() == null}" action="#{LoginMB.doLogin()}"  style="margin-left: 120px;width: 150px; height: 30px; margin-top: 25px" value="Logar"/>
+            </div>
+        </div>
+        
     </h:form>
 
 </ui:composition>

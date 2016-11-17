@@ -40,6 +40,16 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
+    
+    <filter>
+        <filter-name>Login Filter</filter-name>
+        <filter-class>br.com.cobranca.util.MyFilter</filter-class>
+    </filter>
+    <filter-mapping> 
+        <filter-name>Login Filter</filter-name>
+        <url-pattern>/restrito/*</url-pattern>
+    </filter-mapping>
+    
     <session-config>
         <session-timeout>
             30

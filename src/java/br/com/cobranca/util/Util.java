@@ -5,25 +5,174 @@
  */
 package br.com.cobranca.util;
 
+import br.com.cobranca.entity.BancoCobranca;
+import br.com.cobranca.entity.Devedor;
+import br.com.cobranca.entity.Divida;
 import br.com.cobranca.entity.Pessoa;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
+import org.jrimum.bopepo.BancosSuportados;
+import org.jrimum.bopepo.Boleto;
+import org.jrimum.bopepo.view.BoletoViewer;
+import org.jrimum.domkee.comum.pessoa.endereco.CEP;
+import org.jrimum.domkee.comum.pessoa.endereco.Endereco;
+import org.jrimum.domkee.comum.pessoa.endereco.UnidadeFederativa;
+import org.jrimum.domkee.financeiro.banco.ParametrosBancariosMap;
+import org.jrimum.domkee.financeiro.banco.febraban.Agencia;
+import org.jrimum.domkee.financeiro.banco.febraban.Banco;
+import org.jrimum.domkee.financeiro.banco.febraban.Carteira;
+import org.jrimum.domkee.financeiro.banco.febraban.Cedente;
+import org.jrimum.domkee.financeiro.banco.febraban.ContaBancaria;
+import org.jrimum.domkee.financeiro.banco.febraban.NumeroDaConta;
+import org.jrimum.domkee.financeiro.banco.febraban.Sacado;
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeCobranca;
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeMoeda;
+import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
+import org.primefaces.context.RequestContext;
 
 public class Util {
 
+    /**
+     * Metodo que gera Boleto
+     * @param devedor
+     * @param divida
+     * @return 
+     */
+    public static String gerarBoleto(Devedor devedor, Divida divida) {
+
+        String filePDF = "";
+        try {
+
+            BancoCobranca bancoCobranca = new BancoCobranca();
+            Cedente cedente = new Cedente("Syscob", "43926785000130");
+            Banco banco = BancosSuportados.BANCOOB.create();
+
+            bancoCobranca.setAgencia(4321);
+            bancoCobranca.setBancoNome("Sicoobcred-Acif");
+            bancoCobranca.setCarteira(01);
+            bancoCobranca.setCc(200234);
+            bancoCobranca.setCcDv(8);
+            bancoCobranca.setCedenteCnpj("43926785000130");
+            bancoCobranca.setCedenteNome("Syscob");
+            bancoCobranca.setNossoNumero(00001);
+            bancoCobranca.setNossoNumeroMaximo(99999);
+            
+            
+            banco.setImgLogo(ImageIO.read(new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/image/logo.jpg"))));
+            //banco.setImgLogo(ImageIO.read(new File("P:\\Cobranca\\template\\logo.jpg")));
+
+            ContaBancaria contaBancariaCed = new ContaBancaria(banco);
+            String conta = String.valueOf(200234);
+            String dig = String.valueOf(4);
+            String contaC = conta + dig;
+
+            NumeroDaConta numeroConta = new NumeroDaConta(Integer.valueOf(contaC));
+            numeroConta.setDigitoDaConta(dig);
+            contaBancariaCed.setNumeroDaConta(numeroConta);
+            Carteira carteira = new Carteira();
+            carteira.setTipoCobranca(TipoDeCobranca.SEM_REGISTRO);
+            carteira.setCodigo(1);
+            contaBancariaCed.setCarteira(carteira);
+            contaBancariaCed.setAgencia(new Agencia(bancoCobranca.getAgencia()));
+            cedente.addContaBancaria(contaBancariaCed);
+
+            Sacado sacado = new Sacado(devedor.getNome(),
+                    devedor.getCpf() == null ? devedor.getCpf() : devedor.getCpf());
+
+            Endereco enderecoSac = new Endereco();
+            enderecoSac.setLogradouro(devedor.getEndereco());
+            enderecoSac.setNumero(devedor.getNumero());
+            enderecoSac.setComplemento(devedor.getComplemento());
+            enderecoSac.setBairro(devedor.getBairro());
+            enderecoSac.setCep(new CEP(""));
+            enderecoSac.setLocalidade(devedor.getCidade());
+            enderecoSac.setUF(UnidadeFederativa.valueOfSigla(devedor.getUf()));
+            sacado.addEndereco(enderecoSac);
+
+            Titulo titulo = new Titulo(contaBancariaCed, sacado, cedente);
+            titulo.setNumeroDoDocumento(completarCom(String.valueOf(divida.getId()), 8, "0", "e"));
+            titulo.setDigitoDoNossoNumero("7");
+            titulo.setNossoNumero(completarCom(String.valueOf(divida.getId()), 8, "0", "e"));
+            //titulo.setValor(BigDecimal.valueOf(totalBoleto));
+            titulo.setValor(new BigDecimal(divida.getValorDivida()));
+            titulo.setDataDoDocumento(new Date());
+
+            Date dataVenc = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dataVenc);
+            calendar.add(Calendar.DATE, 5);
+            dataVenc = calendar.getTime();
+            titulo.setDataDoVencimento(dataVenc);
+
+            titulo.setAceite(Titulo.Aceite.A);
+            titulo.setTipoDeMoeda(TipoDeMoeda.REAL);
+
+            ParametrosBancariosMap parametros = new ParametrosBancariosMap();
+            parametros.adicione("ModalidadeDeCobranca", 2);
+            titulo.setParametrosBancarios(parametros);
+
+            // alimento na divida
+            Boleto boleto = new Boleto(titulo);
+            boleto.setLocalPagamento("");
+            boleto.setInstrucao2("1 - Não raceber após o vencimento");
+            boleto.addTextosExtras("txtRsAgenciaCodigoCedente", "4321 / 2002344-8");
+            boleto.addTextosExtras("txtFcAgenciaCodigoCedente", "4321 / 2002344-8");
+            File templatePersonalizado = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportTemp/template.pdf"));
+            
+            BoletoViewer boletoViewer = new BoletoViewer(boleto, templatePersonalizado);
+            boletoViewer.getPdfAsFile(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + "\\resources\\boletos\\boleto.pdf");
+            filePDF = "/resources/boletos/boleto.pdf";
+            
+
+        } catch (Exception e) {
+            mostrarMensagemErro("Informação: ", e.getMessage());
+        }
+
+        return filePDF;
+    }
+
+    
+    
+    /**
+     * metodo que completa com determinado tamanho determinado valor
+     *
+     * @param valor
+     * @param qtde
+     * @param completarCom
+     * @param posicao
+     * @return
+     */
+    public static String completarCom(String valor, int qtde, String completarCom, String posicao) {
+        String novoValor = valor;
+
+        for (int i = qtde - valor.length(); novoValor.length() < qtde; i--) {
+            if (posicao.equals("e")) {
+                novoValor = completarCom + novoValor;
+            } else {
+                novoValor = novoValor + completarCom;
+            }
+        }
+      return novoValor;
+    }
+    
+    
     /**
      * Metodo que valida email
      *
@@ -173,7 +322,7 @@ public class Util {
                         strSql = strSql + ", ";
                         //usarVirgula = false;
                     }
-                    
+
                     strSql = strSql + nomeColuna + " = ? ";
                     usarVirgula = true;
                 }
@@ -494,45 +643,61 @@ public class Util {
                 tipoColuna = "Int";
             } else {
                 tipoColuna = StringPrimeiraLetraMaiuscula(tipoColuna);
+
             }
 
             // rs . get + tipo da coluna, passando o nome da coluna como parâmetro
-            Method met = rs.getClass().getMethod("get" + tipoColuna, String.class);
+            Method met = rs.getClass().getMethod("get" + tipoColuna, String.class
+            );
 
             if (tipoColuna.equals("Int")) {
                 Integer valor = (Integer) met.invoke(rs, nomeColuna);
 
-                met = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Integer.class);
+                met
+                        = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Integer.class
+                        );
                 met.invoke(obj, valor);
             } else if (tipoColuna.equals("String")) {
                 String valor = (String) met.invoke(rs, nomeColuna);
 
-                met = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), String.class);
+                met
+                        = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), String.class
+                        );
                 met.invoke(obj, valor);
             } else if (tipoColuna.equals("Double")) {
                 Double valor = (Double) met.invoke(rs, nomeColuna);
 
-                met = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Double.class);
+                met
+                        = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Double.class
+                        );
                 met.invoke(obj, valor);
             } else if (tipoColuna.equals("Float")) {
                 Float valor = (Float) met.invoke(rs, nomeColuna);
 
-                met = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Float.class);
+                met
+                        = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Float.class
+                        );
                 met.invoke(obj, valor);
             } else if (tipoColuna.equals("Long")) {
                 Long valor = (Long) met.invoke(rs, nomeColuna);
 
-                met = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Long.class);
+                met
+                        = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Long.class
+                        );
                 met.invoke(obj, valor);
             } else if (tipoColuna.equals("Boolean")) {
                 Boolean valor = (Boolean) met.invoke(rs, nomeColuna);
 
-                met = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Boolean.class);
+                met
+                        = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Boolean.class
+                        );
                 met.invoke(obj, valor);
             } else if (tipoColuna.equals("Date")) {
                 Date valor = (Date) met.invoke(rs, nomeColuna);
 
-                met = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Date.class);
+                met
+                        = obj.getClass().getMethod("set" + StringPrimeiraLetraMaiuscula(nomeColuna), Date.class
+                        );
                 met.invoke(obj, valor);
             } else {
                 break;
@@ -651,46 +816,45 @@ public class Util {
         }
     }
 
-     /**
+    /**
      * Metodo que coloca o usuario na sessao
-     * @param usuario 
+     *
+     * @param usuario
      */
-    public static void colocarUsuarioSessao(Pessoa pessoa){
+    public static void colocarUsuarioSessao(Pessoa pessoa) {
         HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        ses.setAttribute("usuarioLogado", pessoa);            
+        ses.setAttribute("usuarioLogado", pessoa);
     }
-    
-    
 
     /**
      * Metodo que remove usuario da sessao
      */
-    public static void retirarUsuarioSessao(){
+    public static void retirarUsuarioSessao() {
         HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         ses.invalidate();
     }
-    
-     /**
+
+    /**
      * Metodo que redireciona pagina
-     * @param url 
+     *
+     * @param url
      */
-    public static void redirecionar(String url){
+    public static void redirecionar(String url) {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        try {        
+        try {
             ec.redirect(url);
         } catch (IOException ex) {
             mostrarMensagemErro("Informação", ex.getMessage());
         }
     }
-    
-    
-    
+
     /**
      * Metodo que retorna o usuario logado
-     * @return 
+     *
+     * @return
      */
-    public static Pessoa getUsuarioLogado(){
+    public static Pessoa getUsuarioLogado() {
         return (Pessoa) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuarioLogado");
     }
-    
+
 }

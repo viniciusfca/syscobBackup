@@ -38,7 +38,7 @@ public class LoginMB {
         PessoaDAO pessoaDAO = new PessoaDAO();
         try {
             Pessoa pessoa = pessoaDAO.pessoaLogin(username, senha);
-            if (pessoa != null) {
+            if (pessoa.getId() != null) {
                 Util.colocarUsuarioSessao(pessoa);
                 Util.redirecionar(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
             } else {

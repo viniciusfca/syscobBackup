@@ -16,73 +16,98 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author Vinicius
  */
-@ManagedBean(name="CobrancaMB")
+@ManagedBean(name = "CobrancaMB")
 @ViewScoped
 public class CobrancaMB {
-    
+
     private int parcela;
-    
+
+    private String filePDF;
+
     private double desconto;
-    
-    private boolean gerarBoleto; 
-    
+
+    private boolean gerarBoleto;
+
     private List<Divida> dividas;
-    
+
     private DividaDAO dividaDAO;
     private HistoricoDAO historicoDAO;
-    
+
     private Divida divida;
     private Historico historico;
     private List<Historico> historicos;
-    
+
     public CobrancaMB() {
         dividas = new ArrayList<Divida>();
         historicos = new ArrayList<Historico>();
-        
+
         dividaDAO = new DividaDAO();
         historicoDAO = new HistoricoDAO();
-        
+
         divida = new Divida();
         historico = new Historico();
-        
+
         divida.setCliente(new Pessoa());
         divida.setDevedor(new Devedor());
-        
+
         dividas = dividaDAO.dividasDia();
-        
+
     }
 
     /**
      * Metodo que retorna historicos da dividas escolhida
      */
-    public void listarHistorico(){
+    public void listarHistorico() {
         historicos = historicoDAO.listarHistorico(divida.getId());
     }
-    
-    public void adicionarHistorico(){
+
+    public void adicionarHistorico() {
         int retorno = 0;
-        
+
         historico.setDivida(divida);
         historico.setPessoa(divida.getCliente());
-        retorno = historicoDAO.adicionarHistorico(historico);
-        
-        if(retorno > 0){
-            Util.mostrarMensagemSucesso("Informação", "Atendimento incluído com sucesso!");
-            divida = dividaDAO.atualizarDivida(divida);
-            dividas = dividaDAO.dividasDia();
-            historicos = historicoDAO.listarHistorico(divida.getId());
-        }else{
-            Util.mostrarMensagemErro("Informação", "Falha ao incluir o atendimento!");
+
+        if (gerarBoleto) {
+            if (desconto > 0) {
+                desconto = desconto / 100;
+                desconto = divida.getValorDivida() * desconto;
+                divida.setValorDivida(divida.getValorDivida() - desconto);
+                desconto = 0;
+            }
+
+            filePDF = Util.gerarBoleto(divida.getDevedor(), divida);
         }
-        
+
+        if (filePDF.equals(null) || filePDF.equals("") && gerarBoleto) {
+            Util.mostrarMensagemErro("Informação", "Falha ao gerar Boleto");
+        } else {
+
+            retorno = historicoDAO.adicionarHistorico(historico);
+            if (retorno > 0) {
+                Util.mostrarMensagemSucesso("Informação", "Atendimento incluído com sucesso!");
+                divida = dividaDAO.atualizarDivida(divida);
+                dividas = dividaDAO.dividasDia();
+                historicos = historicoDAO.listarHistorico(divida.getId());
+                
+                if(!filePDF.equals(null) || !filePDF.equals("")){
+                    RequestContext.getCurrentInstance().update("formCadastro");
+                    RequestContext.getCurrentInstance().execute("PF('dlgBoleto').show()");
+                    filePDF = null;
+                }
+                
+            } else {
+                Util.mostrarMensagemErro("Informação", "Falha ao incluir o atendimento!");
+            }
+
+        }
     }
-    
-    
+
     public List<Divida> getDividas() {
         return dividas;
     }
@@ -139,7 +164,14 @@ public class CobrancaMB {
     public void setHistoricos(List<Historico> historicos) {
         this.historicos = historicos;
     }
-    
-    
+
+    public String getFilePDF() {
+        return filePDF;
+    }
+
+    public void setFilePDF(String filePDF) {
+        this.filePDF = filePDF;
+    }
+
     
 }
