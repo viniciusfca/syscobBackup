@@ -75,7 +75,7 @@ public class ContasPagarDAO {
         Conexao conexao = new Conexao();
         PreparedStatement ps = null;
         List<ContasPagar> contasPagar = new ArrayList<ContasPagar>();
-        String sql = "SELECT * FROM pagar WHERE idCliente = ?";
+        String sql = "SELECT * FROM pagar WHERE idCliente = ? ORDER BY id desc";
         
         try{
             ps = conexao.conectar().prepareStatement(sql);

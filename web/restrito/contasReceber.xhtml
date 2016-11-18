@@ -39,29 +39,29 @@
                             <h:outputText value="#{contasReceberMB.contasReceber.idDivida}" styleClass="fontInput"/>
                         </p:column>
 
-                        <p:column style="color: black; font-weight: bold" headerText="Valor da Dívida"  >
+                        <p:column sortBy="#{contasReceberMB.contasReceber.valor}" style="color: black; font-weight: bold" headerText="Valor da Dívida"  >
                             <h:outputText value="#{contasReceberMB.contasReceber.valor}" styleClass="fontInput">
                                 <f:convertNumber type="currency" />
                             </h:outputText>
                         </p:column >
 
-                        <p:column headerText="Data do Vencimento"  style="color: black; font-weight: bold">
+                        <p:column sortBy="#{contasReceberMB.contasReceber.dataVencimento}" headerText="Data do Vencimento"  style="color: black; font-weight: bold">
                             <h:outputText value="#{contasReceberMB.contasReceber.dataVencimento}" styleClass="fontInput">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Data do Pagamento"  style="color: black; font-weight: bold">
+                        <p:column sortBy="#{contasReceberMB.contasReceber.dataPagamento}" headerText="Data do Pagamento"  style="color: black; font-weight: bold">
                             <h:outputText value="#{contasReceberMB.contasReceber.dataPagamento}" styleClass="fontInput">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Status"  style="color: black; font-weight: bold">
+                        <p:column sortBy="#{contasReceberMB.contasReceber.status}" headerText="Status"  style="color: black; font-weight: bold">
                             <h:outputText value="#{contasReceberMB.contasReceber.status}" styleClass="fontInput"/>
                         </p:column>
 
-                        <p:column headerText="Nosso Número"  style="color: black; font-weight: bold">
+                        <p:column headerText="Nosso Número" sortBy="#{contasReceberMB.contasReceber.nossoNumero}"  style="color: black; font-weight: bold">
                             <h:outputText value="#{contasReceberMB.contasReceber.nossoNumero}" styleClass="fontInput"/>
                         </p:column>
 

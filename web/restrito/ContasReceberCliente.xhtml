@@ -21,36 +21,26 @@
                          text-align: left">Contas a Receber</div>
                 </div>
 
-<!--
-                <div class="row" style="text-align: left; margin-top: 2%">
-
-                    <div class="col-lg-3" style="width: 0%; margin-top: 2.6%;">
-                        <p:commandButton  value="Pesquisar" styleClass="btnMenu" onclick="PF('dtPessoa').show();" />
-                    </div>
-                </div>
-                <br/>   -->
-
-
 
                 <div style="margin-top: 1%">
                     <p:dataTable style="width: 100%;font-weight: bold;text-align: center" value="#{contasPagarMB.contasPagar}" var="pagar" emptyMessage="Não existe divídas para serem pagas.">
 
-                        <p:column headerText="Divida"  style="color: black; font-weight: bold">
+                        <p:column sortBy="#{pagar.idDivida}" headerText="Divida"  style="color: black; font-weight: bold">
                             <h:outputText value="#{pagar.idDivida}" styleClass="fontInput"/>
                         </p:column>
 
 
-                        <p:column headerText="Valor"  style="color: black; font-weight: bold">
+                        <p:column sortBy="#{pagar.valor}" headerText="Valor"  style="color: black; font-weight: bold">
                             <h:outputText value="#{pagar.valor}" styleClass="fontInput">
                                 <f:convertNumber type="currency" />
                             </h:outputText>
                         </p:column>
                         
-                        <p:column headerText="Status" style="color: black; font-weight: bold">
+                        <p:column sortBy="#{pagar.status}" headerText="Status" style="color: black; font-weight: bold">
                             <h:outputText value="#{pagar.status}" styleClass="fontInput"/>
                         </p:column>
                         
-                        <p:column headerText="Data do Pagamento" width="16%" style="color: black; font-weight: bold">
+                        <p:column sortBy="#{pagar.dataPagamento}" headerText="Data do Pagamento" width="16%" style="color: black; font-weight: bold">
                             <h:outputText value="#{pagar.dataPagamento}" styleClass="fontInput">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
