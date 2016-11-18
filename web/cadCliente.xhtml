@@ -80,7 +80,7 @@
                                 <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() != null}" icon="ui-icon-disk" value="Atualizar"  action="#{PessoaMB.atualizarPessoa()}" style="margin-left: 1%" styleClass="btnMenu" update="formCadastro"/>
 
                                 <!-- Limpar -->
-                                <p:commandButton icon="ui-icon-document" value="Limpar" style="margin-left: 1%" action="#{PessoaMB.limparTela()}" styleClass="btnMenu" update="formCadastro"/>
+                               
 
                                 <!-- Pesquisar -->
                                 <p:commandButton icon="ui-icon-search"  rendered="#{PessoaMB.pessoa.tipo != 'C' and LoginMB.retornarUsuarioLogado() != null}" value="Pesquisar" style="margin-left: 1%" styleClass="btnMenu" onclick="PF('dtPessoa').show();"/>
