@@ -111,9 +111,10 @@ public class CobrancaMB {
                     filePDF = null;
                     
                     divida = new Divida();
+                    divida.setDevedor(new Devedor());
                     historico = new Historico();
+                    historicos.clear();
                     dividasDevedor.clear();
-                    
                     
                     
                 }
