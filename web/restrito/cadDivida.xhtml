@@ -296,11 +296,7 @@
 
                         <div class="row" style="text-align: left; ">
 
-                            <div class="col-lg-6">
-                                <p:outputLabel value="Cliente:" style="display: block" styleClass="fontInput"/>
-                                <p:inputText readonly="true" value="#{DividaMB.divida.cliente.nome}" style="width: 80%"/>
-                                <p:commandButton disabled="#{DividaMB.habilitarBtnDividaSalvar}" icon="ui-icon-search" onclick="PF('dtPessoa').show();" style="margin-left: 2%; height: 30px;width: 30px"/>
-                            </div>
+                           
 
                             <div class="col-lg-3">
                                 <p:outputLabel value="Valor:" style="display: block" styleClass="fontInput"/>
@@ -311,6 +307,12 @@
                             <div class="col-lg-3">
                                 <p:outputLabel value="Status:" style="display: block" styleClass="fontInput"/>
                                 <p:inputText value="#{DividaMB.divida.status}" style="width: 100%"/>
+                            </div>
+                            
+                             <div class="col-lg-6">
+                                <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" value="Cliente:" style="display: block" styleClass="fontInput"/>
+                                <p:inputText rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" readonly="true" value="#{DividaMB.divida.cliente.nome}" style="width: 80%"/>
+                                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" disabled="#{DividaMB.habilitarBtnDividaSalvar}" icon="ui-icon-search" onclick="PF('dtPessoa').show();" style="margin-left: 2%; height: 30px;width: 30px"/>
                             </div>
                         </div>
 

@@ -8,7 +8,7 @@ package br.com.cobranca.dao;
 import br.com.cobranca.entity.Devedor;
 import br.com.cobranca.entity.Divida;
 import br.com.cobranca.entity.Pessoa;
-import br.com.cobranca.util.Conexao;
+import br.com.cobranca.util.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -43,7 +43,13 @@ public class DividaDAO {
         try {
             ps = conexao.conectar().prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, divida.getDevedor().getId());
-            ps.setInt(2, divida.getCliente().getId());
+            String tipo = Util.getUsuarioLogado().getTipo();
+            if(tipo.equals("C")){
+                 ps.setInt(2, Util.getUsuarioLogado().getId());
+            }else{
+                ps.setInt(2, divida.getCliente().getId());
+            }
+            
             ps.setDouble(3, divida.getValorDivida());
             ps.setString(4, divida.getStatus());
             ps.setString(5, divida.getObservacao());

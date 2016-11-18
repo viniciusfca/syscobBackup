@@ -19,7 +19,7 @@
                 <p:separator />
                 <p:menuitem value="Usuário" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/cadFuncionario.jsf" icon="fa fa-user" />
                 <p:separator/>
-                <p:menuitem value="Dívída" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/cadDivida.jsf" icon="fa fa-money"  />
+                <p:menuitem value="Dívída" rendered="#{LoginMB.retornarUsuarioLogado() != null }" url="/restrito/cadDivida.jsf" icon="fa fa-money"  />
             </p:submenu>
 
             <p:submenu label="Cobranças" icon="fa fa-headphones" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" style="margin-left: 20px">
