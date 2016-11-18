@@ -37,6 +37,10 @@ public class ContasPagarMB {
         contasPagar = new ArrayList<ContasPagar>();
         contasPagarDAO = new ContasPagarDAO();
         pessoa = new Pessoa();
+        
+         if(Util.getUsuarioLogado().getTipo().equals("C")){
+            contasPagar = contasPagarDAO.listarContasPagar(Util.getUsuarioLogado().getId());
+        }
     }
     
     /**

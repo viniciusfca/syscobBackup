@@ -20,14 +20,14 @@
 
                 <div class=" panel panel-primary" style="margin-top: 7%">
                     <div class="panel-heading"  style="text-align: center;font-size: 120%; font-weight: bold;
-                         text-align: left">Agenda de Cobranças</div>
+                         text-align: left">Acompanhamento de Atendimento</div>
                 </div>
 
                 <div class="panel panel-default">
-                    <div class="panel-heading" style="font-weight: bold">Cobranças do Dia</div>
+                    <div class="panel-heading" style="font-weight: bold">Dívidas</div>
                 </div>
 
-                <p:dataTable style="width: 100%;text-align: center; " value="#{CobrancaMB.dividas}" var="divida" emptyMessage="Não há divídas agendadas para cobrança hoje.">
+                <p:dataTable style="width: 100%;text-align: center; " value="#{CobrancaMB.dividas}" var="divida" emptyMessage="Não existe dividas.">
                     <p:column style="color: black; font-weight: bold" headerText="id" width="5%" >
                         <h:outputText value="#{divida.id}" styleClass="fontInput"/>
                     </p:column>
@@ -119,61 +119,9 @@
                         <div class="panel panel-default" style="margin-top: 2%">
                             <div class="panel-heading" style="font-weight: bold">Histórico</div>
                         </div>
-                        <div class="row" style="text-align: left; ">
-                            <div class="col-lg-4" styleClass="fontInput">
-                                <p:outputLabel styleClass="fontInput" value="Status:" style="display: block"/>
-                                <p:selectOneMenu value="#{CobrancaMB.divida.status}" effect="slide">
-                                    <f:selectItem itemLabel="Aguardando Pagamento" itemValue="Aguardando Pagamento"/>
-                                    <f:selectItem itemLabel="Em Negociação" itemValue="Em Negociação"/>
-                                    <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>
-                                </p:selectOneMenu>
-                            </div>
-
-                            <div class="col-lg-3" >
-                                <p:outputLabel styleClass="fontInput" value="Gerar Boleto:" style="display: block"/>
-                                <p:selectOneMenu value="#{CobrancaMB.gerarBoleto}" effect="slide">
-                                    <f:selectItem itemLabel="Sim" itemValue="true"/>
-                                    <f:selectItem itemLabel="Não" itemValue="false"/>
-
-                                </p:selectOneMenu>
-                            </div>
-
-                            <!--                            <div class="col-lg-3" >
-                                                            <p:outputLabel styleClass="fontInput" value="Número de parcelas:" style="display: block"/>
-                                                            <p:selectOneMenu value="#{CobrancaMB.parcela}" effect="slide">
-                                                                <f:selectItem itemLabel="1x Parcela" itemValue="1"/>
-                                                                <f:selectItem itemLabel="2x Parcelas" itemValue="2"/>
-                                                                <f:selectItem itemLabel="3x Parcelas" itemValue="3"/>
-                                                            </p:selectOneMenu>
-                                                        </div>-->
-
-
-                            <div class="col-lg-3" >
-                                <p:outputLabel styleClass="fontInput" value="Desconto:" style="display: block"/>
-                                <p:inputNumber value="#{CobrancaMB.desconto}" id="grow" />
-                                <p:tooltip id="toolTipGrow" for="grow" value="Atenção: Conceder desconto em percentual"
-                                           showEffect="clip" hideEffect="explode" />
-                            </div>
-
-                        </div>
-
-                        <div class="row" style="text-align: left; margin-top: 1%">
-                            <div class="col-lg-6" styleClass="fontInput">
-                                <p:outputLabel value="Observação:" style="display: block" styleClass="fontInput"/>
-                                <p:inputTextarea value="#{CobrancaMB.historico.observacao}" placeholder="Observação do atendimento" style="width: 100%"/>
-                            </div>
-
-                            <div class="col-lg-1" >
-                                <p:commandButton styleClass="btnMenu" action="#{CobrancaMB.adicionarHistorico()}" update="formCadastro"  value="Adicionar" style="margin-top: 67px" />
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default" style="margin-top: 2%">
-                            <div class="panel-heading" style="font-weight: bold">Histórico de Atendimento</div>
-                        </div>
 
                         <div style="margin-top: 1%">
-                            <p:dataTable style="width: 100%;text-align: center"  value="#{CobrancaMB.historicos}" var="historico" emptyMessage="Não existe resgistro de historico.">
+                            <p:dataTable style="width: 100%;text-align: center"  value="#{CobrancaMB.historicos}" var="historico" emptyMessage="Não existe registro de histórico.">
 
                                 <p:column style="color: black; font-weight: bold" headerText="Atendente" styleClass="fontInput" >
                                     <h:outputText value="#{historico.pessoa.nome}" styleClass="fontInput"/>
@@ -191,9 +139,9 @@
                                 <p:column style="color: black; font-weight: bold; width: 300px"  styleClass="fontInput" headerText="Observação" >
                                     <h:outputText value="#{historico.observacao}" styleClass="fontInput"/>
                                 </p:column>
-                                <p:column style="color: black; font-weight: bold" headerText="Visualizar Boleto" styleClass="fontInput" >
+<!--                                <p:column style="color: black; font-weight: bold" headerText="Visualizar Boleto" styleClass="fontInput" >
                                     <p:commandButton disabled="true" style="width: 27%" icon="ui-icon-check"/>
-                                </p:column>
+                                </p:column>-->
 
                             </p:dataTable>
                         </div>

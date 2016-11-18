@@ -60,6 +60,10 @@ public class CobrancaMB {
         divida.setDevedor(new Devedor());
 
         dividas = dividaDAO.dividasDia();
+        
+        if(Util.getUsuarioLogado().getTipo().equals("C")){
+            dividas = dividaDAO.dividasCliente(Util.getUsuarioLogado().getId());
+        }
 
     }
 

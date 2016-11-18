@@ -28,6 +28,11 @@
                 <p:menuitem value="Agenda"  rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/cobranca.jsf" icon="fa fa-headphones" style="margin-left: 20px" />
             </p:submenu>
             
+             <p:submenu label="Acompanhar Atendimentos" icon="fa fa-headphones" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'C'}" style="margin-left: 20px">
+                <p:menuitem value="Atendimentos"  rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'C'}" url="/restrito/dividasCliente.jsf" icon="fa fa-headphones" style="margin-left: 20px" />
+               <p:menuitem value="Contas a Receber" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'C'}" url="/restrito/ContasReceberCliente.jsf" icon="fa fa-money" style="margin-left: 20px" />    
+            </p:submenu>
+            
 
             <p:menuitem value="Contas a Receber" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/contasReceber.jsf" icon="fa fa-money" style="margin-left: 20px" />    
 

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <center>
+
+
+
+            <h:form id="formPagar" style="width: 920px;text-align: left ">
+
+
+                <div class=" panel panel-primary" style="margin-top: 7%">
+                    <div class="panel-heading" style="text-align: center;font-size: 120%; font-weight: bold; 
+                         text-align: left">Contas a Receber</div>
+                </div>
+
+<!--
+                <div class="row" style="text-align: left; margin-top: 2%">
+
+                    <div class="col-lg-3" style="width: 0%; margin-top: 2.6%;">
+                        <p:commandButton  value="Pesquisar" styleClass="btnMenu" onclick="PF('dtPessoa').show();" />
+                    </div>
+                </div>
+                <br/>   -->
+
+
+
+                <div style="margin-top: 1%">
+                    <p:dataTable style="width: 100%;font-weight: bold;text-align: center" value="#{contasPagarMB.contasPagar}" var="pagar" emptyMessage="Não existe divídas para serem pagas.">
+
+                        <p:column headerText="Divida"  style="color: black; font-weight: bold">
+                            <h:outputText value="#{pagar.idDivida}" styleClass="fontInput"/>
+                        </p:column>
+
+
+                        <p:column headerText="Valor"  style="color: black; font-weight: bold">
+                            <h:outputText value="#{pagar.valor}" styleClass="fontInput">
+                                <f:convertNumber type="currency" />
+                            </h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Status" style="color: black; font-weight: bold">
+                            <h:outputText value="#{pagar.status}" styleClass="fontInput"/>
+                        </p:column>
+                        
+                        <p:column headerText="Data do Pagamento" width="16%" style="color: black; font-weight: bold">
+                            <h:outputText value="#{pagar.dataPagamento}" styleClass="fontInput">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+
+                    </p:dataTable>
+                </div>
+
+            </h:form>
+        </center>
+    </ui:define>        
+
+</ui:composition>

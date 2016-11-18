@@ -107,6 +107,50 @@ public class DividaDAO {
 
         return dividas;
     }
+    
+    
+    public List<Divida> dividasCliente(int idCliente) {
+        Conexao conexao = new Conexao();
+        Devedor devedor = new Devedor();
+        Pessoa pessoa = new Pessoa();
+        PessoaDAO pessoaDAO = new PessoaDAO();
+        DevedorDAO devedorDAO = new DevedorDAO();
+        PreparedStatement ps = null;
+        List<Divida> dividas = new ArrayList<Divida>();
+
+        String sql = "SELECT * FROM DIVIDA WHERE idCliente = ?";
+        try {
+            ps = conexao.conectar().prepareStatement(sql);
+            ps.setInt(1, idCliente);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Divida divida = new Divida();
+                divida.setId(rs.getInt("id"));
+
+                devedor = devedorDAO.getById(rs.getInt("idDevedor"));
+                pessoa = pessoaDAO.get(rs.getInt("idCliente"));
+                divida.setCliente(pessoa);
+                divida.setDevedor(devedor);
+
+                divida.setStatus(rs.getString("status"));
+                divida.setObservacao(rs.getString("observacao"));
+                divida.setDataCadastro(rs.getDate("datacadastro"));
+                divida.setDataCobranca(rs.getDate("datacobranca"));
+                divida.setValorDivida(rs.getDouble("valordivida"));
+
+                dividas.add(divida);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e);
+        } finally {
+            conexao.desconectar();
+        }
+
+        return dividas;
+    }
 
     public Divida buscarDividaById(int id) {
         Conexao conexao = new Conexao();
