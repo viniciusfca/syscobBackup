@@ -47,19 +47,20 @@
         </p:menubar>
         
         
-        <div class="row" style="margin-left: 900px">
-            <div class="col-lg-3" style="margin-left: -250px">
+         <div class="row" style="width:100%;background-color: white">
+            <div class="col-lg-6"></div>
+            <div class="col-lg-2" style="margin-top:5px;margin-bottom: 5px">
                 <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Usuário:" style="font-weight: bold" styleClass="fontInput"/>
                 <p:inputText rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.username}"/>
             </div>
 
-            <div class="col-lg-3" style="margin-left: -30px">
+            <div class="col-lg-2" style="margin-top:5px;margin-bottom: 5px">
                 <p:outputLabel rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="Senha:" style="font-weight: bold" styleClass="fontInput"/>
                 <p:password rendered="#{LoginMB.retornarUsuarioLogado() == null}" value="#{LoginMB.senha}"/>
             </div>
 
-            <div class="col-lg-3">
-                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() == null}" action="#{LoginMB.doLogin()}"  style="margin-left: 120px;width: 150px; height: 30px; margin-top: 25px" value="Logar"/>
+            <div class="col-lg-1">
+                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() == null}" action="#{LoginMB.doLogin()}"  style="width: 150px; height: 30px; margin-top: 30px" value="Logar"/>
             </div>
         </div>
         

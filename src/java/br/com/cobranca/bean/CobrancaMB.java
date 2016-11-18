@@ -36,17 +36,19 @@ public class CobrancaMB {
     private boolean gerarBoleto;
 
     private List<Divida> dividas;
-
+    private List<Divida> dividasDevedor;
     private DividaDAO dividaDAO;
     private HistoricoDAO historicoDAO;
     private ContasReceberDAO contasReceberDAO;
 
     private Divida divida;
+    private Devedor devedor;
     private Historico historico;
     private List<Historico> historicos;
 
     public CobrancaMB() {
         dividas = new ArrayList<Divida>();
+        dividasDevedor = new ArrayList<Divida>();
         historicos = new ArrayList<Historico>();
 
         dividaDAO = new DividaDAO();
@@ -60,6 +62,7 @@ public class CobrancaMB {
         divida.setDevedor(new Devedor());
 
         dividas = dividaDAO.dividasDia();
+        devedor = new Devedor();
         
         if(Util.getUsuarioLogado().getTipo().equals("C")){
             dividas = dividaDAO.dividasCliente(Util.getUsuarioLogado().getId());
@@ -183,6 +186,26 @@ public class CobrancaMB {
     public void setFilePDF(String filePDF) {
         this.filePDF = filePDF;
     }
+
+    public Devedor getDevedor() {
+        return devedor;
+    }
+
+    public void setDevedor(Devedor devedor) {
+        this.devedor = devedor;
+        dividasDevedor = dividaDAO.dividasDevedor(devedor.getId());
+        RequestContext.getCurrentInstance().execute("PF('dlgBoleto').hide()");
+    }
+
+    public List<Divida> getDividasDevedor() {
+        return dividasDevedor;
+    }
+
+    public void setDividasDevedor(List<Divida> dividasDevedor) {
+        this.dividasDevedor = dividasDevedor;
+    }
+    
+    
 
     
 }

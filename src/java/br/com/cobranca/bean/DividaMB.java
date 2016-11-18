@@ -35,15 +35,14 @@ public class DividaMB {
 
     private boolean habilitarBtnDividaNovo;
     private boolean habilitarBtnDividaSalvar;
-    
-    
+
     private Devedor devedor;
     private Divida divida;
 
     private DevedorDAO devedorDAO;
     private PessoaDAO pessoaDAO;
     private DividaDAO dividaDAO;
-    
+
     public ArrayList<Pessoa> pessoas;
     public ArrayList<Devedor> devedores;
 
@@ -53,10 +52,10 @@ public class DividaMB {
         this.devedorDAO = new DevedorDAO();
         this.pessoaDAO = new PessoaDAO();
         this.dividaDAO = new DividaDAO();
-        
+
         habilitarBtnDividaNovo = true;
         habilitarBtnDividaSalvar = true;
-        
+
         divida.setCliente(new Pessoa());
     }
 
@@ -73,13 +72,13 @@ public class DividaMB {
     public void buscarDevedorByCpf() {
         String cpf = devedor.getCpf();
         if (Util.isCPF(devedor.getCpf())) {
-            
+
             devedor = devedorDAO.getByCpf(devedor.getCpf());
 
             if (devedor.getId() > 0) {
                 Util.mostrarMensagemSucesso("Informação", "Devedor já cadastrado");
                 habilitarBtnDividaNovo = false;
-            }else{
+            } else {
                 devedor.setCpf(cpf);
             }
         } else {
@@ -87,33 +86,34 @@ public class DividaMB {
         }
 
     }
-    
+
     /**
      * Metodo para incluir nova divida
      */
-    public void novaDivida(){
+    public void novaDivida() {
         divida = new Divida();
         divida.setCliente(new Pessoa());
         divida.setDevedor(devedor);
         habilitarBtnDividaSalvar = false;
     }
-    
-    public void salvarDivida(){
-        
-        divida =  dividaDAO.CadastrarDivida(divida);
-        
-        if(divida.getId() > 0){
+
+    public void salvarDivida() {
+
+        divida = dividaDAO.CadastrarDivida(divida);
+
+        if (divida.getId() > 0) {
             Util.mostrarMensagemSucesso("Informação", "Divida cadastrada com sucesso!");
-        }else{
+        } else {
             Util.mostrarMensagemErro("Informação", "Falha ao cadastrar a divida.");
         }
     }
-    
+
     /**
      * Metodo de consulta de pessoas
-     * @param tipo 
+     *
+     * @param tipo
      */
-     public void consultarPessoas(String tipo) {
+    public void consultarPessoas(String tipo) {
 
         if (valorConsultaCliente != null && !valorConsultaCliente.isEmpty()) {
 
@@ -130,11 +130,11 @@ public class DividaMB {
             }
         }
     }
-     
-      /**
-     * Metodo de consulta de devedores 
+
+    /**
+     * Metodo de consulta de devedores
      */
-     public void consultarDevedores() {
+    public void consultarDevedores() {
 
         if (valorConsulta != null && !valorConsulta.isEmpty()) {
 
@@ -199,20 +199,38 @@ public class DividaMB {
      * Metodo que insere um novo devedor
      */
     public void inserirDevedor() {
-
+        boolean retorno = false;
         try {
 
-            if (validarDevedor()) {
-                devedor.setDatacadastro(new Date());
-                devedor.setId(devedorDAO.post(devedor));
+            if (devedor.getId() != null) {
 
-                if (devedor.getId() > 0) {
-                    msg = "Inclusão realizada com sucesso!";
-                    habilitarBtnDividaNovo = false;
-                } else {
-                    msg = "Inclusão não efetuada!";
+                if (validarDevedor()) {
+                    retorno = devedorDAO.put(devedor);
                 }
+
+                if (retorno) {
+                    Util.mostrarMensagemSucesso("Informação: ", "Devedor Atualizado com sucesso!");
+                } else {
+                    Util.mostrarMensagemErro("Informação", "Falha ao atualizar devedor.");
+                }
+
+            } else if (devedor.getId() == null) {
+
+                if (validarDevedor()) {
+                    devedor.setDatacadastro(new Date());
+                    devedor.setId(devedorDAO.post(devedor));
+
+                    if (devedor.getId() > 0) {
+                        msg = "Inclusão realizada com sucesso!";
+                        habilitarBtnDividaNovo = false;
+                    } else {
+                        msg = "Inclusão não efetuada!";
+                    }
+
+                }
+
             }
+
         } catch (Exception ex) {
             msg = "Erro ao efetuar a inclusão: " + ex.getMessage();
         } finally {
@@ -282,7 +300,7 @@ public class DividaMB {
 
     public void setDivida(Divida divida) {
         this.divida = divida;
-        
+
     }
 
     public ArrayList<Pessoa> getPessoas() {
@@ -332,10 +350,5 @@ public class DividaMB {
     public void setTipoConsultaCliente(String tipoConsultaCliente) {
         this.tipoConsultaCliente = tipoConsultaCliente;
     }
-
-    
-    
-    
-    
 
 }

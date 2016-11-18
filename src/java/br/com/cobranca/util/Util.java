@@ -29,6 +29,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.mail.EmailAttachment;
+import org.apache.commons.mail.MultiPartEmail;
 import org.jrimum.bopepo.BancosSuportados;
 import org.jrimum.bopepo.Boleto;
 import org.jrimum.bopepo.view.BoletoViewer;
@@ -51,10 +53,57 @@ import org.primefaces.context.RequestContext;
 public class Util {
 
     /**
+     * Metodo que envia email
+     *
+     * @param divida
+     * @param boleto
+     */
+    public static void enviarEmail(Divida divida, String boleto) {
+        MultiPartEmail emailTemp = new MultiPartEmail();
+
+        try {
+
+            emailTemp.setDebug(true);
+            emailTemp.setHostName("smtp.gmail.com");
+            emailTemp.setSmtpPort(587);
+            emailTemp.setStartTLSEnabled(true);
+            emailTemp.setAuthentication("homework.fca@gmail.com", "homework@");
+            emailTemp.setFrom("syscob@sycob.com.br", "SYSCOB");
+            emailTemp.addTo(divida.getDevedor().getEmail());
+            emailTemp.setSubject("Boleto - Syscob ");
+            emailTemp.setMsg(
+                        "Olá, "+divida.getDevedor().getNome()+"\n"
+                        + "Segue anexo Boleto referente a negociação de código: " + divida.getId() + "\n\n"
+                        + "Obs: Favor confirmar o recebimento deste. \n\n\n\n"
+                        + "Att \n"
+                        + "Syscob"
+                );
+            
+            boleto = boleto.replace("/", File.separator);
+
+            File f = new File(boleto);
+            EmailAttachment attachment = new EmailAttachment();
+            attachment.setPath(f.getPath());
+            attachment.setDisposition(EmailAttachment.ATTACHMENT);
+            attachment.setName(f.getName());
+            emailTemp.attach(attachment);
+            
+            emailTemp.send();
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+        } finally {
+
+        }
+
+    }
+
+    /**
      * Metodo que gera Boleto
+     *
      * @param devedor
      * @param divida
-     * @return 
+     * @return
      */
     public static String gerarBoleto(Devedor devedor, Divida divida) {
         ContasReceberDAO contasReceberDAO = new ContasReceberDAO();
@@ -74,8 +123,7 @@ public class Util {
             bancoCobranca.setCedenteNome("Syscob");
             bancoCobranca.setNossoNumero(00001);
             bancoCobranca.setNossoNumeroMaximo(99999);
-            
-            
+
             banco.setImgLogo(ImageIO.read(new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/image/logo.jpg"))));
             //banco.setImgLogo(ImageIO.read(new File("P:\\Cobranca\\template\\logo.jpg")));
 
@@ -136,15 +184,15 @@ public class Util {
             boleto.addTextosExtras("txtRsAgenciaCodigoCedente", "4321 / 2002344-8");
             boleto.addTextosExtras("txtFcAgenciaCodigoCedente", "4321 / 2002344-8");
             File templatePersonalizado = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportTemp/template.pdf"));
-            
+
             BoletoViewer boletoViewer = new BoletoViewer(boleto, templatePersonalizado);
             boletoViewer.getPdfAsFile(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + "\\resources\\boletos\\boleto.pdf");
             filePDF = "/resources/boletos/boleto.pdf";
-            
+
             //Gero contas Receber
-            if(contasReceberDAO.inserirContasReceber(divida.getId(), divida.getValorDivida(), titulo.getNossoNumero(), titulo.getDataDoVencimento()) > 0){
-                
-            }else{
+            if (contasReceberDAO.inserirContasReceber(divida.getId(), divida.getValorDivida(), titulo.getNossoNumero(), titulo.getDataDoVencimento()) > 0) {
+                enviarEmail(divida, FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + "resources\\boletos\\boleto.pdf");
+            } else {
                 filePDF = "";
             }
 
@@ -155,8 +203,6 @@ public class Util {
         return filePDF;
     }
 
-    
-    
     /**
      * metodo que completa com determinado tamanho determinado valor
      *
@@ -176,10 +222,9 @@ public class Util {
                 novoValor = novoValor + completarCom;
             }
         }
-      return novoValor;
+        return novoValor;
     }
-    
-    
+
     /**
      * Metodo que valida email
      *
