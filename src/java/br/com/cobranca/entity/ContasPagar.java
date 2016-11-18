@@ -13,29 +13,40 @@ import java.util.Date;
  */
 public class ContasPagar {
     
-    private Pessoa cliente;
-    private Divida divida;
+    private int id;
+    private int idCliente;
+    private int idDivida;
+    
+    private double valor;
     
     private Date dataPagamento;
     
     private String status;
 
-    public Pessoa getCliente() {
-        return cliente;
+    public int getId() {
+        return id;
     }
 
-    public void setCliente(Pessoa cliente) {
-        this.cliente = cliente;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Divida getDivida() {
-        return divida;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setDivida(Divida divida) {
-        this.divida = divida;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
+    public int getIdDivida() {
+        return idDivida;
+    }
+
+    public void setIdDivida(int idDivida) {
+        this.idDivida = idDivida;
+    }
+    
     public Date getDataPagamento() {
         return dataPagamento;
     }
@@ -50,6 +61,14 @@ public class ContasPagar {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
     
     

@@ -10,7 +10,7 @@
 
     <ui:define name="content">
         <center>
-            <h:form style="width: 920px;text-align: left ">
+            <h:form id="formReceber" style="width: 920px;text-align: left ">
 
 
                 <div class=" panel panel-primary" style="margin-top: 7%">
@@ -22,10 +22,10 @@
                 <div class="row" style="text-align: left; margin-top: 2%">
                     <div class="col-lg-3">
                         <p:outputLabel value="Nosso Número:"/>
-                        <p:inputNumber placeholder="Ex: 12345678" style="width: 100%"/>
+                        <p:inputText type="number" value="#{contasReceberMB.nossoNumero}" placeholder="Ex: 12345678" style="width: 100%"/>
                     </div>
                     <div class="col-lg-3" style="width: 0%; margin-top: 2.6%;">
-                        <p:commandButton  value="Pesquisar" styleClass="btnMenu" />
+                        <p:commandButton  value="Pesquisar" action="#{contasReceberMB.buscarContasReceber()}" styleClass="btnMenu" update="formReceber"/>
                     </div>
                 </div>
                 <br/>   
@@ -33,40 +33,40 @@
 
 
                 <div style="margin-top: 1%">
-                    <p:dataTable style="width: 100%;font-weight: bold; text-align: center" value="#{agendaMB.dividas.get(0)}" var="divida" emptyMessage="Não existe divídas para serem cobradas.">
+                    <p:dataTable style="width: 100%;font-weight: bold; text-align: center" rendered="#{contasReceberMB.contasReceber.id > 0}" value="#{contasReceberMB.contasReceber}" var="contas" emptyMessage="Não existe divídas para serem cobradas.">
 
-                        <p:column style="color: black; font-weight: bold" headerText="Valor da Dívida" width="16%" >
-                            <h:outputText value="#{divida.valor}" styleClass="fontInput">
+                        <p:column headerText="Códido da Dívida"  style="color: black; font-weight: bold" >
+                            <h:outputText value="#{contasReceberMB.contasReceber.idDivida}" styleClass="fontInput"/>
+                        </p:column>
+
+                        <p:column style="color: black; font-weight: bold" headerText="Valor da Dívida"  >
+                            <h:outputText value="#{contasReceberMB.contasReceber.valor}" styleClass="fontInput">
                                 <f:convertNumber type="currency" />
                             </h:outputText>
                         </p:column >
 
-                        <p:column headerText="Devedor" width="16%" style="color: black; font-weight: bold" >
-                            <h:outputText value="#{divida.devedor}" styleClass="fontInput"/>
-                        </p:column>
-
-                        <p:column headerText="Data do Vencimento" width="16%" style="color: black; font-weight: bold">
-                            <h:outputText value="#{divida.dataCadstro}" styleClass="fontInput">
+                        <p:column headerText="Data do Vencimento"  style="color: black; font-weight: bold">
+                            <h:outputText value="#{contasReceberMB.contasReceber.dataVencimento}" styleClass="fontInput">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Data do Pagamento" width="20%" style="color: black; font-weight: bold">
-                            <h:outputText value="#{divida.dataCadstro}" styleClass="fontInput">
+                        <p:column headerText="Data do Pagamento"  style="color: black; font-weight: bold">
+                            <h:outputText value="#{contasReceberMB.contasReceber.dataPagamento}" styleClass="fontInput">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Status" width="8%" style="color: black; font-weight: bold">
-                            <h:outputText value="#{divida.status}" styleClass="fontInput"/>
+                        <p:column headerText="Status"  style="color: black; font-weight: bold">
+                            <h:outputText value="#{contasReceberMB.contasReceber.status}" styleClass="fontInput"/>
                         </p:column>
 
-                        <p:column headerText="Nosso Número" width="12%" style="color: black; font-weight: bold">
-                            <h:outputText value="#{divida.procedimento}" styleClass="fontInput"/>
+                        <p:column headerText="Nosso Número"  style="color: black; font-weight: bold">
+                            <h:outputText value="#{contasReceberMB.contasReceber.nossoNumero}" styleClass="fontInput"/>
                         </p:column>
 
-                        <p:column headerText="Quitar" width="10%" style="color: black; font-weight: bold">
-                            <p:commandButton type="button"  style="width: 27%" icon="ui-icon-check"/>
+                        <p:column headerText="Quitar"  style="color: black; font-weight: bold">
+                            <p:commandButton action="#{contasReceberMB.quitarDivida()}"  style="width: 27%" icon="ui-icon-check" disabled="#{contasReceberMB.contasReceber.dataPagamento != null}"/>
                         </p:column>
 
                     </p:dataTable>

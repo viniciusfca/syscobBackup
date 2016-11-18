@@ -19,10 +19,10 @@
                 <p:separator />
                 <p:menuitem value="Usuário" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/cadFuncionario.jsf" icon="fa fa-user" />
                 <p:separator/>
-                <p:menuitem value="Dívída" url="/restrito/cadDivida.jsf" icon="fa fa-money"  />
+                <p:menuitem value="Dívída" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/cadDivida.jsf" icon="fa fa-money"  />
             </p:submenu>
 
-            <p:submenu label="Cobranças" icon="fa fa-headphones" style="margin-left: 20px">
+            <p:submenu label="Cobranças" icon="fa fa-headphones" rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" style="margin-left: 20px">
                 <p:menuitem value="Cobrança"  rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/divida.jsf" icon="fa fa-headphones" style="margin-left: 20px" />
                 <p:separator />
                 <p:menuitem value="Agenda"  rendered="#{LoginMB.retornarUsuarioLogado().tipo == 'U'}" url="/restrito/cobranca.jsf" icon="fa fa-headphones" style="margin-left: 20px" />

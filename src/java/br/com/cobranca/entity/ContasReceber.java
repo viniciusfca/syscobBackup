@@ -13,31 +13,44 @@ import java.util.Date;
  */
 public class ContasReceber {
     
-    private Devedor devedor;
-    private Divida divida;
+    private int id;
+    private int idDevedor;
+    private int idDivida;
     
     private Date dataVencimento;
     private Date dataPagamento;
     
+    private Double valor;
+    
     private String nossoNumero;
     private String Status;
 
-    public Devedor getDevedor() {
-        return devedor;
+    public int getId() {
+        return id;
     }
 
-    public void setDevedor(Devedor devedor) {
-        this.devedor = devedor;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Divida getDivida() {
-        return divida;
+    public int getIdDevedor() {
+        return idDevedor;
     }
 
-    public void setDivida(Divida divida) {
-        this.divida = divida;
+    public void setIdDevedor(int idDevedor) {
+        this.idDevedor = idDevedor;
     }
 
+    public int getIdDivida() {
+        return idDivida;
+    }
+
+    public void setIdDivida(int idDivida) {
+        this.idDivida = idDivida;
+    }
+
+    
+    
     public Date getDataVencimento() {
         return dataVencimento;
     }
@@ -69,6 +82,16 @@ public class ContasReceber {
     public void setStatus(String Status) {
         this.Status = Status;
     }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+    
+    
     
     
 }

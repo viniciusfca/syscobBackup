@@ -5,6 +5,7 @@
  */
 package br.com.cobranca.util;
 
+import br.com.cobranca.dao.ContasReceberDAO;
 import br.com.cobranca.entity.BancoCobranca;
 import br.com.cobranca.entity.Devedor;
 import br.com.cobranca.entity.Divida;
@@ -56,7 +57,7 @@ public class Util {
      * @return 
      */
     public static String gerarBoleto(Devedor devedor, Divida divida) {
-
+        ContasReceberDAO contasReceberDAO = new ContasReceberDAO();
         String filePDF = "";
         try {
 
@@ -140,6 +141,12 @@ public class Util {
             boletoViewer.getPdfAsFile(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + "\\resources\\boletos\\boleto.pdf");
             filePDF = "/resources/boletos/boleto.pdf";
             
+            //Gero contas Receber
+            if(contasReceberDAO.inserirContasReceber(divida.getId(), divida.getValorDivida(), titulo.getNossoNumero(), titulo.getDataDoVencimento()) > 0){
+                
+            }else{
+                filePDF = "";
+            }
 
         } catch (Exception e) {
             mostrarMensagemErro("Informação: ", e.getMessage());

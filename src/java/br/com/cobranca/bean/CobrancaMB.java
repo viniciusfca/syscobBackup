@@ -5,6 +5,7 @@
  */
 package br.com.cobranca.bean;
 
+import br.com.cobranca.dao.ContasReceberDAO;
 import br.com.cobranca.dao.DividaDAO;
 import br.com.cobranca.dao.HistoricoDAO;
 import br.com.cobranca.entity.Devedor;
@@ -38,6 +39,7 @@ public class CobrancaMB {
 
     private DividaDAO dividaDAO;
     private HistoricoDAO historicoDAO;
+    private ContasReceberDAO contasReceberDAO;
 
     private Divida divida;
     private Historico historico;
@@ -49,6 +51,7 @@ public class CobrancaMB {
 
         dividaDAO = new DividaDAO();
         historicoDAO = new HistoricoDAO();
+        contasReceberDAO = new ContasReceberDAO();
 
         divida = new Divida();
         historico = new Historico();
@@ -99,6 +102,9 @@ public class CobrancaMB {
                     RequestContext.getCurrentInstance().update("formCadastro");
                     RequestContext.getCurrentInstance().execute("PF('dlgBoleto').show()");
                     filePDF = null;
+                    
+                    divida = new Divida();
+                    
                 }
                 
             } else {

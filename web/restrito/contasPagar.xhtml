@@ -10,7 +10,62 @@
 
     <ui:define name="content">
         <center>
-            <h:form style="width: 920px;text-align: left ">
+
+
+
+            <h:form id="formPagar" style="width: 920px;text-align: left ">
+
+                <p:dialog hideEffect="blind" showEffect="blind" header="PESQUISAR CLIENTE" id="dtPessoa" widgetVar="dtPessoa" draggable="false" width="80%">
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <p:outputLabel value="Filtro:"/>
+                            <p:selectOneMenu effect="slide" value="#{PessoaMB.tipoConsulta}">
+                                <f:selectItem  itemLabel="Nome" itemValue="NOME"/>
+                                <f:selectItem itemLabel="CPF" itemValue="CPF"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="col-lg-4" style="width: 40%">
+                            <p:outputLabel value="Conteúdo:"/>
+                            <p:inputText maxlength="120" placeholder="Conteúdo da Pesquisa" value="#{PessoaMB.valorConsulta}" style="width: 100%;"/>
+                        </div>
+
+                        <div class="col-lg-4" style="width: 5%; margin-top: 2%;">
+
+                            <!-- Botão Pesquisar -->
+                            <p:commandButton style="height: 30px; margin-top: 6px" icon="fa fa-search" value="Pesquisar" action="#{PessoaMB.consultarPessoas('C')}" styleClass="btnMenu" update ="dt"/>
+                        </div>
+
+                    </div>
+
+                    <p:dataTable id="dt" style="width: 100%;font-weight: lighter;margin-top: 1%"  value="#{PessoaMB.pessoas}" var="pessoaDT" emptyMessage="Nada encontrado!">
+
+                        <p:column headerText="Nome" style="font-weight: bold;color: black" width="20%" styleClass="textColumn">
+                            <h:outputText value="#{pessoaDT.nome}" styleClass="fontInput"/>
+                        </p:column>
+                        <p:column headerText="CPF" style="font-weight: bold;color: black" width="10%" styleClass="textColumn">
+                            <h:outputText value="#{pessoaDT.cpf}" styleClass="fontInput"/>
+                        </p:column>
+                        <p:column headerText="E-mail" style="font-weight: bold;color: black" width="20%" styleClass="textColumn">
+                            <h:outputText value="#{pessoaDT.email}" styleClass="fontInput"/>
+                        </p:column>
+                        <p:column headerText="Data do Cadastro" style="font-weight: bold;color: black" width="10%" styleClass="textColumn" >
+                            <h:outputText value="#{pessoaDT.dataCadastro}" styleClass="fontInput">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Selecionar" width="10%" style="font-weight: bold;color: black" styleClass="textColumn">
+
+                            <!-- Clicar em Alterar Pessoa -->
+                            <center>
+                                <p:commandButton action="#{contasPagarMB.setPessoa(pessoaDT)}" style="width: 30px;width: 30px" onclick="PF('dtPessoa').hide();" icon="ui-icon-check" update="formPagar"/>
+                            </center>
+                        </p:column>
+                    </p:dataTable>
+                    <br/>
+                </p:dialog>
+
 
                 <div class=" panel panel-primary" style="margin-top: 7%">
                     <div class="panel-heading" style="text-align: center;font-size: 120%; font-weight: bold; 
@@ -19,20 +74,9 @@
 
 
                 <div class="row" style="text-align: left; margin-top: 2%">
-                    <div class="col-lg-3">
-                        <p:outputLabel value="Tipo de Filtro:"/>
-                        <p:selectOneMenu effect="slide"  value="Cliente">
-                            <f:selectItem itemLabel="Cliente" itemValue="Cliente"/>
-                            <f:selectItem itemLabel="Código da Divída" itemValue="Codigo da Dívida"/>
 
-                        </p:selectOneMenu>
-                    </div>
-                    <div class="col-lg-3">
-                        <p:outputLabel value="Conteúdo da Pesquisa:"/>
-                        <p:inputText placeholder="Pesquisa" style="width: 100%"/>
-                    </div>
                     <div class="col-lg-3" style="width: 0%; margin-top: 2.6%;">
-                        <p:commandButton  value="Pesquisar" styleClass="btnMenu" />
+                        <p:commandButton  value="Pesquisar" styleClass="btnMenu" onclick="PF('dtPessoa').show();" />
                     </div>
                 </div>
                 <br/>   
@@ -40,30 +84,33 @@
 
 
                 <div style="margin-top: 1%">
-                    <p:dataTable style="width: 100%;font-weight: bold;text-align: center" value="#{agendaMB.dividas.get(0)}" var="divida" emptyMessage="Não existe divídas para serem cobradas.">
+                    <p:dataTable style="width: 100%;font-weight: bold;text-align: center" value="#{contasPagarMB.contasPagar}" var="pagar" emptyMessage="Não existe divídas para serem pagas.">
 
-                        <p:column headerText="Valor da Divída" width="16%" style="color: black; font-weight: bold">
-                            <h:outputText value="#{divida.valor}" styleClass="fontInput">
+                        <p:column headerText="Divida"  style="color: black; font-weight: bold">
+                            <h:outputText value="#{pagar.idDivida}" styleClass="fontInput"/>
+                        </p:column>
+
+
+                        <p:column headerText="Valor"  style="color: black; font-weight: bold">
+                            <h:outputText value="#{pagar.valor}" styleClass="fontInput">
                                 <f:convertNumber type="currency" />
                             </h:outputText>
                         </p:column>
-
-                        <p:column headerText="Cliente" width="16%" style="color: black; font-weight: bold">
-                            <h:outputText value="#{divida.devedor}" styleClass="fontInput"/>
+                        
+                        <p:column headerText="Status" style="color: black; font-weight: bold">
+                            <h:outputText value="#{pagar.status}" styleClass="fontInput"/>
                         </p:column>
-
+                        
                         <p:column headerText="Data do Pagamento" width="16%" style="color: black; font-weight: bold">
-                            <h:outputText value="#{divida.dataCadstro}" styleClass="fontInput">
+                            <h:outputText value="#{pagar.dataPagamento}" styleClass="fontInput">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Status" width="8%" style="color: black; font-weight: bold">
-                            <h:outputText value="Pendente" styleClass="fontInput"/>
-                        </p:column>
+                        
 
-                        <p:column headerText="Quitar" width="10%" style="color: black; font-weight: bold">
-                            <p:commandButton type="button"  style="width: 27%" icon="ui-icon-check"/>
+                        <p:column headerText="Quitar"  style="color: black; font-weight: bold">
+                            <p:commandButton  action="#{contasPagarMB.quitarContasPagar(pagar)}" style="width: 27%" icon="ui-icon-check" disabled="#{pagar.dataPagamento != null}" update="formPagar"/>
                         </p:column>
 
                     </p:dataTable>
