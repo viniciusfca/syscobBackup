@@ -12,7 +12,7 @@
     <ui:define name="content">
         <center>
 
-            <p:dialog id="dlg" widgetVar="dlgBoleto" header="Boleto" width="800" height="600" closable="true" draggable="false" resizable="false" styleClass="textNormal">
+            <p:dialog  id="dlg" widgetVar="dlgBoleto" header="Boleto" width="800" height="600"  closable="true" draggable="false" resizable="false" styleClass="textNormal">
                 <p:media id="mediaPDF" player="pdf" value="/resources/boletos/boleto.pdf" height="600" width="800" />                
             </p:dialog>
 
@@ -249,9 +249,7 @@
                                 <p:column style="color: black; font-weight: bold; width: 300px"  styleClass="fontInput" headerText="Observação" >
                                     <h:outputText value="#{historico.observacao}" styleClass="fontInput"/>
                                 </p:column>
-                                <p:column style="color: black; font-weight: bold" headerText="Visualizar Boleto" styleClass="fontInput" >
-                                    <p:commandButton disabled="true" style="width: 27%" icon="ui-icon-check"/>
-                                </p:column>
+                               
 
                             </p:dataTable>
                         </div>

@@ -106,7 +106,7 @@ public class CobrancaMB {
                 historicos = historicoDAO.listarHistorico(divida.getId());
                 
                 if(!filePDF.equals(null) || !filePDF.equals("")){
-                    RequestContext.getCurrentInstance().update("@formaCadastro");
+                    RequestContext.getCurrentInstance().update("formCadastro");
                     RequestContext.getCurrentInstance().execute("PF('dlgBoleto').show()");
                     filePDF = null;
                     
@@ -123,6 +123,10 @@ public class CobrancaMB {
             }
 
         }
+    }
+    
+    public void atualizarPagina(){
+        RequestContext.getCurrentInstance().update("@form");
     }
 
     public List<Divida> getDividas() {
