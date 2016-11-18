@@ -30,8 +30,8 @@ public class Devedor {
     private String celular;
     private String email;
 
-    private Date dataNascimento;
-    private Date dataCadastro;
+    private Date datanascimento;
+    private Date datacadastro;
 
     public Integer getId() {
         return id;
@@ -148,20 +148,22 @@ public class Devedor {
         this.email = email;
     }
 
-    public Date getDataNascimento() {
-        return dataNascimento;
+    public Date getDatanascimento() {
+        return datanascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setDatanascimento(Date datanascimento) {
+        this.datanascimento = datanascimento;
     }
 
-    public Date getDataCadastro() {
-        return dataCadastro;
+    public Date getDatacadastro() {
+        return datacadastro;
     }
 
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
+    public void setDatacadastro(Date datacadastro) {
+        this.datacadastro = datacadastro;
     }
+
+ 
 
 }

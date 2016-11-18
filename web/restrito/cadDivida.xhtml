@@ -101,7 +101,7 @@
                             <h:outputText value="#{devedorDT.email}" styleClass="fontInput"/>
                         </p:column>
                         <p:column headerText="Data do Cadastro" style="font-weight: bold;color: black" width="10%" styleClass="textColumn" >
-                            <h:outputText value="#{devedorDT.dataCadastro}" styleClass="fontInput">
+                            <h:outputText value="#{devedorDT.datacadastro}" styleClass="fontInput">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
@@ -168,7 +168,7 @@
 
                             <div class="col-lg-3"  >
                                 <h:outputLabel value="Data Nascimento:" style="display: block;" styleClass="fontInput"/>
-                                <p:calendar mask="99/99/9999"  effect="slide" placeholder="Ex: 01/01/1990" value="#{DividaMB.devedor.dataNascimento}" locale="pt" pattern="dd/MM/yyyy">
+                                <p:calendar mask="99/99/9999"  effect="slide" placeholder="Ex: 01/01/1990" value="#{DividaMB.devedor.datanascimento}" locale="pt" pattern="dd/MM/yyyy">
                                 </p:calendar>
                             </div>
 

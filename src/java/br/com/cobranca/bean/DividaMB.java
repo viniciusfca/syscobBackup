@@ -167,7 +167,7 @@ public class DividaMB {
             msg = "CPF inválido!";
         } else if (devedor.getRg() == null || devedor.getRg().trim().length() < 9) {
             msg = "RG inválido!";
-        } else if (devedor.getDataNascimento() == null || devedor.getDataNascimento().getTime() >= (new Date()).getTime()) {
+        } else if (devedor.getDatanascimento() == null || devedor.getDatanascimento().getTime() >= (new Date()).getTime()) {
             msg = "Data de Nascimento inválida!";
         } else if (devedor.getSexo() == null || (!devedor.getSexo().trim().equals("F") && !devedor.getSexo().trim().equals("M"))) {
             msg = "Sexo inválido!";
@@ -203,7 +203,7 @@ public class DividaMB {
         try {
 
             if (validarDevedor()) {
-                devedor.setDataCadastro(new Date());
+                devedor.setDatacadastro(new Date());
                 devedor.setId(devedorDAO.post(devedor));
 
                 if (devedor.getId() > 0) {

@@ -104,6 +104,7 @@ public class CobrancaMB {
                     filePDF = null;
                     
                     divida = new Divida();
+                    historico = new Historico();
                     
                 }
                 

@@ -65,7 +65,7 @@ public class ContasReceberDAO {
         ContasReceber contasReceber = new ContasReceber();
         PreparedStatement ps = null;
         
-        String sql = "SELECT * FROM receber WHERE nossonumero = ?";
+        String sql = "SELECT * FROM receber WHERE nossonumero = ? ORDER BY id desc";
         
         try{
             

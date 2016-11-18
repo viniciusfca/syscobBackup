@@ -180,8 +180,8 @@ public class DevedorDAO {
                  devedor.setSexo(rs.getString("sexo"));
                  devedor.setCpf(rs.getString("cpf"));
                  devedor.setRg(rs.getString("rg"));
-                 devedor.setDataNascimento(rs.getDate("datanascimento"));
-                 devedor.setDataCadastro(rs.getDate("datacadastro"));
+                 devedor.setDatanascimento(rs.getDate("datanascimento"));
+                 devedor.setDatacadastro(rs.getDate("datacadastro"));
                  devedor.setEmail(rs.getString("email"));
                  devedor.setTelefone(rs.getString("telefone"));
                  devedor.setCelular(rs.getString("celular"));
@@ -225,8 +225,8 @@ public class DevedorDAO {
                  devedor.setSexo(rs.getString("sexo"));
                  devedor.setCpf(rs.getString("cpf"));
                  devedor.setRg(rs.getString("rg"));
-                 devedor.setDataNascimento(rs.getDate("datanascimento"));
-                 devedor.setDataCadastro(rs.getDate("datacadastro"));
+                 devedor.setDatanascimento(rs.getDate("datanascimento"));
+                 devedor.setDatacadastro(rs.getDate("datacadastro"));
                  devedor.setEmail(rs.getString("email"));
                  devedor.setTelefone(rs.getString("telefone"));
                  devedor.setCelular(rs.getString("celular"));
