@@ -34,7 +34,7 @@
                         <div class="col-lg-4" style="width: 5%; margin-top: 2%;">
 
                             <!-- Botão Pesquisar -->
-                            <p:commandButton style="height: 50%" icon="fa fa-search" value="Pesquisar" action="#{PessoaMB.consultarPessoas('C')}" styleClass="btnMenu" update ="dt"/>
+                            <p:commandButton  style="height: 50%" icon="fa fa-search" value="Pesquisar" action="#{PessoaMB.consultarPessoas('C')}" styleClass="btnMenu" update ="dt"/>
                         </div>
 
                     </div>
@@ -74,16 +74,16 @@
                             <div class="col-lg-12">
 
                                 <!-- Incluir -->
-                                <p:commandButton disabled="#{PessoaMB.habilitarBotaoAlterar}" icon="ui-icon-plus" value="Incluir"  action="#{PessoaMB.inserirPessoa('C')}" styleClass="btnMenu" update="formCadastro"/>
+                                <p:commandButton disabled="#{PessoaMB.habilitarBotaoAlterar}" icon="ui-icon-plus" value="Incluir" rendered="#{PessoaMB.pessoa.tipo != 'C'}"  action="#{PessoaMB.inserirPessoa('C')}" styleClass="btnMenu" update="formCadastro"/>
 
                                 <!-- Alterar -->
-                                <p:commandButton disabled="#{!PessoaMB.habilitarBotaoAlterar}" icon="ui-icon-disk" value="Atualizar"  action="#{PessoaMB.atualizarPessoa()}" style="margin-left: 1%" styleClass="btnMenu" update="formCadastro"/>
+                                <p:commandButton rendered="#{LoginMB.retornarUsuarioLogado() != null}" icon="ui-icon-disk" value="Atualizar"  action="#{PessoaMB.atualizarPessoa()}" style="margin-left: 1%" styleClass="btnMenu" update="formCadastro"/>
 
                                 <!-- Limpar -->
                                 <p:commandButton icon="ui-icon-document" value="Limpar" style="margin-left: 1%" action="#{PessoaMB.limparTela()}" styleClass="btnMenu" update="formCadastro"/>
 
                                 <!-- Pesquisar -->
-                                <p:commandButton icon="ui-icon-search"  value="Pesquisar" style="margin-left: 1%" styleClass="btnMenu" onclick="PF('dtPessoa').show();"/>
+                                <p:commandButton icon="ui-icon-search"  rendered="#{PessoaMB.pessoa.tipo != 'C' and LoginMB.retornarUsuarioLogado() != null}" value="Pesquisar" style="margin-left: 1%" styleClass="btnMenu" onclick="PF('dtPessoa').show();"/>
 
                             </div>
                         </div>

@@ -39,8 +39,18 @@ public class PessoaMB {
 
     public PessoaMB() {
         this.dao = new PessoaDAO();
-
-        limparTela();
+        
+        if(Util.getUsuarioLogado() != null && Util.getUsuarioLogado().getTipo().equals("C")){
+            try {
+                pessoa = dao.get(Util.getUsuarioLogado().getId());
+            } catch (Exception ex) {
+                Logger.getLogger(PessoaMB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            pessoa = new Pessoa();
+        }
+        
+       // limparTela();
     }
 
     public void limparTela() {

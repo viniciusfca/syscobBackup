@@ -209,9 +209,9 @@ public class DividaMB {
                 }
 
                 if (retorno) {
-                    Util.mostrarMensagemSucesso("Informação: ", "Devedor Atualizado com sucesso!");
+                    msg = "Devedor Atualizado com sucesso!";
                 } else {
-                    Util.mostrarMensagemErro("Informação", "Falha ao atualizar devedor.");
+                    msg = "Falha ao atualizar devedor.";
                 }
 
             } else if (devedor.getId() == null) {
